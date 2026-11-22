@@ -17,7 +17,11 @@
 .screen{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;display:block}
 #glass{pointer-events:none}
 #sky:focus{outline:0}
-.encounter{pointer-events:none;position:absolute;top:clamp(20px,4vh,44px);left:50%;transform:translateX(-50%);width:202px;padding:7px 10px 6px;border-left:3px solid #ee9b76;background:#262332e6;color:#ffe9ca;font-size:9px;line-height:1.3;user-select:none}
+.encounter{pointer-events:none;position:absolute;top:clamp(20px,4vh,44px);left:50%;transform:translateX(-50%);width:232px;padding:8px 11px;border:1px solid #a18e865c;border-left:3px solid #ee9b76;background:#242632f2;box-shadow:2px 2px 0 #29273566;color:#ffe9ca;font-size:10px;line-height:1.3;user-select:none}
+.encounter-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:5px;color:#e4d8c9;font-size:9px}
+.formation-count{display:inline-flex;align-items:center;gap:5px;color:#ffd49c;white-space:nowrap;font-weight:600;font-variant-numeric:tabular-nums}
+.formation-count i{width:7px;height:7px;border:1px solid currentColor;transform:rotate(45deg);box-shadow:inset 0 0 0 1px #433039;background:#ecac72}
+.encounter[data-phase=clear]{border-left-color:#a9d4bf}.encounter[data-phase=clear] .formation-count{color:#aedac5}
 .encounter-head,.encounter-foot{display:flex;align-items:baseline;justify-content:space-between;gap:5px}.encounter-head strong{font-size:11px}.encounter-foot{color:#c4cec3;margin-top:3px}.encounter-foot output{color:#ffdba3}
 .health-track{height:5px;background:#514148;margin-top:4px}.health-track i{display:block;width:100%;height:100%;background:#e99779;transform-origin:left;transition:transform .09s linear}
 .encounter-head{flex-wrap:wrap}.encounter-head #stageLabel{color:#e0cba8;white-space:nowrap}
@@ -27,6 +31,7 @@
 @media(max-width:900px){.encounter{left:clamp(14px,3vw,48px);top:84px;transform:none;width:166px}}
 @media(max-width:680px){.encounter{left:14px;top:68px;width:148px;padding:5px 7px}.encounter-head strong{font-size:10px}.encounter-foot{font-size:8px}}
 @media(max-height:475px){.encounter{left:14px;top:56px;transform:none;width:153px;padding:4px 7px}.encounter-foot{margin-top:2px}}
+@media(max-width:360px) and (orientation:portrait){.encounter{left:8px;width:130px;padding:5px}.encounter-meta{font-size:8px}.formation-count{gap:3px}}
 header{position:absolute;left:clamp(16px,3vw,48px);top:clamp(18px,3.8vh,42px);display:flex;align-items:center;gap:14px;pointer-events:none;user-select:none}
 .patch{width:54px;height:54px;image-rendering:pixelated}
 h1{font:700 34px/1 'Silkscreen',monospace;margin:0;color:#ffedca;text-shadow:3px 0 #383043,0 3px #383043,3px 3px #383043,5px 5px #383043;white-space:nowrap}
@@ -116,7 +121,13 @@ html:not(.mobile-flight) #touchBoost{min-width:84px;min-height:38px;padding:0 12
 <canvas class="screen" id="world" aria-label="Dusk Patrol flight simulation" data-zh-label="暮光巡航飞行模拟"></canvas>
 <canvas class="screen" id="glass" aria-hidden="true"></canvas>
 <header><canvas class="patch" id="patch" width="40" height="40" aria-hidden="true"></canvas><div><h1 aria-label="Dusk Patrol" data-zh-label="暮光巡航"><canvas id="wordmark" width="64" height="8" aria-hidden="true"></canvas><span class="google-title" data-zh="暮光巡航">Dusk Patrol</span></h1><div class="region"><i></i><span data-zh="湖区 / 黄昏中队">LAKE COUNTRY &nbsp;/&nbsp; DUSK SQUADRON</span></div></div></header>
-<div class="encounter" id="encounter"><div class="encounter-head"><strong id="monsterName"></strong><span id="stageLabel"></span></div><div class="health-track" role="progressbar" aria-label="Enemy health" data-zh-label="怪物生命值" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i id="bossHealth"></i></div><div class="encounter-foot"><span><span data-zh="护盾">SHIELD</span> <b id="shield">100</b></span><output id="bossStatus"></output></div><button type="button" id="restartCampaign" data-zh="再玩一次" hidden>Fly again</button></div>
+<div class="encounter" id="encounter">
+  <div class="encounter-meta"><span id="stageLabel"></span><span class="formation-count"><i aria-hidden="true"></i><span data-zh="剩余敌人">HOSTILES</span><b id="hostileCount"></b></span></div>
+  <div class="encounter-head"><strong id="monsterName"></strong></div>
+  <div class="health-track" role="progressbar" aria-label="Enemy formation health" data-zh-label="敌方编队总生命值" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i id="bossHealth"></i></div>
+  <div class="encounter-foot"><span><span data-zh="护盾">SHIELD</span> <b id="shield">100</b></span><output id="bossStatus"></output></div>
+  <button type="button" id="restartCampaign" data-zh="再玩一次" hidden>Fly again</button>
+</div>
 <div class="tools"><button type="button" class="sound" id="sound" title="Toggle synthesized sound" data-zh-title="切换合成音效" aria-pressed="false"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8h4l4-4v12l-4-4H3z"/><path class="wave" d="M14 7q3 3 0 6m2-9q6 6 0 12"/><path class="mute-slash" d="m14 8 4 4m0-4-4 4"/></svg><span>SOUND OFF</span></button>
 <button type="button" id="settingsOpen" class="sound" title="Settings" data-zh-title="设置" aria-label="Settings" data-zh-label="设置" aria-haspopup="dialog" aria-controls="settingsDialog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9m4 0h3M4 12h2m4 0h10M4 18h7m4 0h5"/><path d="M13 4h4v4h-4zm-7 6h4v4H6zm5 6h4v4h-4z"/></svg></button></div>
 <button type="button" class="mode" id="view" title="Cycle camera (Space)" data-zh-title="切换视角（空格）" aria-label="Switch view. Current view Chase"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7V4h4m8 0h4v3m0 6v3h-4M6 16H2v-3m3-3h3l2-3 2 3h3"/></svg><span class="view-copy"><span class="view-action" data-zh="切换视角">Switch view</span><span id="viewLabel">CHASE CAM</span></span><span class="segments" aria-hidden="true"><i></i><i class="active"></i><i></i></span></button>
@@ -561,16 +572,16 @@ class Landscape {
 }
 
 const STAGES = [
-  {kind:'ray', nameEn:'Cloud Ray', nameZh:'云鳐', hp:112, escortLanes:[-1],
+  {kind:'ray', nameEn:'Cloud Ray', nameZh:'云鳐', hp:112, escortCount:2,
     range:305, delay:4.6, windup:1.65, pulseSpeed:189, damage:15,
     colors:[0x183c4b,0x26657a,0x55a8ac,0xa6ded0], glow:0x8ff6dc},
-  {kind:'hornet', nameEn:'Ember Hornet', nameZh:'烬刺蜂', hp:186, escortLanes:[-1,1],
+  {kind:'hornet', nameEn:'Ember Hornet', nameZh:'烬刺蜂', hp:186, escortCount:3,
     range:285, delay:3.5, windup:1.34, pulseSpeed:215, damage:19,
     colors:[0x462b35,0x985542,0xf49d50,0xffde8e], glow:0xffc16e},
-  {kind:'medusa', nameEn:'Prism Medusa', nameZh:'棱光水母', hp:270, escortLanes:[-1,1],
+  {kind:'medusa', nameEn:'Prism Medusa', nameZh:'棱光水母', hp:270, escortCount:4,
     range:320, delay:2.85, windup:1.12, pulseSpeed:247, damage:23,
     colors:[0x443660,0x75538c,0xbc88bc,0xf3c3e3], glow:0xf3aaf4},
-  {kind:'crown', nameEn:'Iron Crown', nameZh:'铁冠', hp:365, escortLanes:[-1,1,0],
+  {kind:'crown', nameEn:'Iron Crown', nameZh:'铁冠', hp:365, escortCount:5,
     range:340, delay:2.25, windup:.92, pulseSpeed:280, damage:28,
     colors:[0x29263d,0x48384f,0x76617a,0xaf8e95], glow:0xff9875}
 ];
@@ -608,19 +619,30 @@ class Aircraft {
   }
   startStage(index,s,time) {
     const stage=STAGES[index];
-    this.stageIndex=index;
+    this.stageIndex=index;this.stageClearedAt=null;this.campaignWon=false;
     const x=s.x+Math.sin(s.heading)*stage.range,z=s.z+Math.cos(s.heading)*stage.range;
     this.boss={x,z,y:Math.max(s.y+22,this.world.height(x,z)+65),hp:stage.hp,maxHp:stage.hp,
       alive:true,phase:'patrol',charge:0,hit:0,born:time,volley:0};
     const sn=Math.sin(s.heading),cs=Math.cos(s.heading);
-    this.escorts=stage.escortLanes.map((lane,i)=>{
-      const range=145+i*27,side=lane*48;
+    // Stagger depth and height so both pairs flank the boss in a portrait cockpit.
+    const formation=[[-23,-9,160],[27,-9,181],[-30,29,194],[32,34,208],[0,58,202]];
+    this.escorts=formation.slice(0,stage.escortCount).map(([side,lift,range],i)=>{
       const x=s.x+sn*range+cs*side,z=s.z+cs*range-sn*side;
-      return {x,y:Math.max(s.y+9+i*5,this.world.height(x,z)+30),z,heading:s.heading,bank:0,
-        lane,range,phase:i*2.1,alive:true,hp:index<2?18:30,hit:0,nextFire:time+2.9+i*1.2};
+      return {x,y:Math.max(s.y+lift,this.world.height(x,z)+26),z,heading:s.heading,bank:0,
+        side,lift,range,phase:i*2.1,alive:true,hp:index<2?18:30,hit:0,nextFire:time+3.4+i*1.25};
     });
+    this.formationMaxHP=this.boss.maxHp+this.escorts.reduce((sum,e)=>sum+e.hp,0);
     this.nextPulse=time+stage.delay;
     this.shots.length=0;this.bolts.length=0;this.pulses.length=0;this.burst=null;
+  }
+  get hostileCount() {
+    return Number(this.boss.alive)+this.escorts.reduce((count,e)=>count+Number(e.alive),0);
+  }
+  get inIntermission() {return this.stageClearedAt!==null && !this.campaignWon;}
+  checkStageClear(time) {
+    if(this.stageClearedAt!==null || this.hostileCount)return;
+    this.stageClearedAt=time;this.campaignWon=this.stageIndex===STAGES.length-1;
+    this.pulses.length=0;
   }
   restartCampaign(s,time) {
     this.campaignWon=false;this.shield=100;this.recoverAt=time;
@@ -632,18 +654,18 @@ class Aircraft {
     for(const e of this.escorts){
       if(!e.alive)continue;
       const t=(time-this.boss.born)*(.72+this.stageIndex*.1)+e.phase;
-      const side=e.lane*48+Math.sin(t)*26,range=e.range+Math.sin(t*.82)*21;
+      const side=e.side+Math.sin(t)*8,range=e.range+Math.sin(t*.82)*13;
       const dx=(s.x+sn*range+cs*side-e.x)*follow+sn*s.speed*dt;
       const dz=(s.z+cs*range-sn*side-e.z)*follow+cs*s.speed*dt;
       e.x+=dx;e.z+=dz;
-      e.y+=(Math.max(s.y+12+Math.sin(t*1.4)*8,this.world.height(e.x,e.z)+30)-e.y)*follow;
+      e.y+=(Math.max(s.y+e.lift+Math.sin(t*1.4)*4,this.world.height(e.x,e.z)+26)-e.y)*follow;
       e.heading=Math.atan2(dx,dz);e.bank=.44*Math.sin(t);e.hit=Math.max(0,e.hit-dt*5);
       if(!this.encounterReady){e.nextFire=time+2.9+e.phase*.5;continue;}
       if(time>=e.nextFire){
         const p=[e.x,e.y,e.z],flight=clamp(Math.hypot(s.x-e.x,s.y-e.y,s.z-e.z)/165,.65,2.1);
         this.pulses.push({p,v:[s.x,s.y,s.z].map((n,i)=>(n-p[i])/flight),
-          life:flight+.35,damage:7+this.stageIndex,escort:true});
-        e.nextFire=time+6.1-this.stageIndex*.62;
+          life:flight+.35,damage:5+this.stageIndex,escort:true});
+        e.nextFire=time+8.2-this.stageIndex*.45;
       }
     }
   }
@@ -669,7 +691,10 @@ class Aircraft {
         e.alive?1:2,e.alive?.4:1.15,i%3?0xffb25d:0x605b70,i%3?'debris':'smoke');
     }
     this.onCombat?.('hit');
-    if(!e.alive)this.onImpact?.();
+    if(!e.alive){
+      this.onImpact?.();
+      this.checkStageClear(time);
+    }
   }
   initializeGraphics() {
     const gl=this.gl;
@@ -977,10 +1002,8 @@ class Aircraft {
     this.onCombat?.('hit');
     if(b.hp>0) return;
     b.alive=false;b.phase='defeated';b.charge=0;
-    for(const escort of this.escorts)escort.alive=false;
-    this.escorts.length=0;
-    this.campaignWon=this.stageIndex===STAGES.length-1;
-    this.burst={p:[b.x,b.y,b.z],start:time};this.pulses.length=0;
+    this.burst={p:[b.x,b.y,b.z],start:time};
+    this.checkStageClear(time);
     for(let i=0;i<52;i++){
       const a=Math.random()*6.283,v=9+Math.random()*34;
       this.puff([b.x+Math.cos(a)*22,b.y+Math.random()*13-4,b.z+Math.sin(a)*22],
@@ -990,15 +1013,16 @@ class Aircraft {
     this.onCombat?.('defeat');
   }
   updateEncounter(dt,s,time) {
-    if(!this.campaignWon && this.burst && time-this.burst.start>=2.5){
+    if(this.inIntermission && time-this.stageClearedAt>=2.5){
       this.startStage(this.stageIndex+1,s,time);
       this.onCombat?.('respawn');
     }
     const b=this.boss;
     const stage=STAGES[this.stageIndex];
     if(time>this.recoverAt) this.shield=Math.min(100,this.shield+1.5*dt);
+    this.updateEscorts(dt,s,time);
+    if(!this.encounterReady)this.pulses.length=0;
     if(b.alive) {
-      this.updateEscorts(dt,s,time);
       const enraged=b.hp<=b.maxHp*.5,t=(time-b.born)*(enraged?1.22:1);
       let strafe,altitude,range=stage.range;
       switch(stage.kind){
@@ -1021,7 +1045,7 @@ class Aircraft {
       const targetY=Math.max(this.world.height(b.x,b.z)+64,s.y+21+altitude);
       b.y+=(targetY-b.y)*(1-Math.exp(-dt*.85));
       b.hit=Math.max(0,b.hit-dt*4.6);
-      if(!this.encounterReady){this.nextPulse=time+3;b.phase='patrol';b.charge=0;this.pulses.length=0}
+      if(!this.encounterReady){this.nextPulse=time+3;b.phase='patrol';b.charge=0}
       if(b.phase==='patrol' && time>=this.nextPulse) {
         b.phase='charging';b.charge=0;this.onCombat?.('charge');
       }
@@ -1080,7 +1104,8 @@ class Aircraft {
           this.shield=Math.max(0,this.shield-(pulse.damage??stage.damage));this.recoverAt=time+4.5;
           this.onCombat?.('shield');
           if(!this.shield){
-            this.shield=100;b.hp=b.maxHp;b.phase='patrol';b.charge=0;this.nextPulse=time+7;
+            this.shield=100;
+            if(b.alive){b.hp=b.maxHp;b.phase='patrol';b.charge=0;this.nextPulse=time+7}
             for(const e of this.escorts)e.nextFire=time+5+e.phase*.5;
             this.pulses.length=0;this.onCombat?.('reboot');break;
           }
@@ -1156,6 +1181,7 @@ class Aircraft {
     for(let i=this.shots.length-1;i>=0;i--) {
       const m=this.shots[i];
       m.life+=dt;
+      if(m.target && !m.target.alive)m.target=this.selectTarget(m.p,'missile');
       const target=m.target;
       if(target?.alive) {
         const dx=target.x-m.p[0],dy=target.y-m.p[1],dz=target.z-m.p[2],d=Math.hypot(dx,dy,dz)||1;
@@ -2388,15 +2414,28 @@ class Patrol {
     }
     s.verticalSpeed=(s.y-oldY)/dt;s.g=follow(s.g,clamp(Math.hypot(1,s.speed*s.turnRate/9.81)+(s.verticalSpeed-oldVs)/dt/9.81,-1,9),3,dt);
     s.slip=clamp((turn-s.turnRate)*.8,-1,1);this.aircraft.update(dt,s,this.time);
-    const b=this.aircraft.boss;
-    const desired=b.alive?[b.x-s.x,b.y-s.y,b.z-s.z]:[0,0,0];
-    this.overheadOffset=this.overheadOffset?this.overheadOffset.map((n,i)=>follow(n,desired[i],3,dt)):desired;
+    this.updateOverheadBounds(dt);
+  }
+  updateOverheadBounds(dt){
+    const s=this.s,a=this.aircraft;
+    let left=-18,right=18,near=-18,far=18,top=8;
+    for(const enemy of [a.boss,...a.escorts]){
+      if(!enemy.alive)continue;
+      const dx=enemy.x-s.x,dz=enemy.z-s.z,r=enemy===a.boss?56:18;
+      left=Math.min(left,dx-r);right=Math.max(right,dx+r);
+      near=Math.min(near,dz-r);far=Math.max(far,dz+r);
+      top=Math.max(top,enemy.y-s.y+(enemy===a.boss?34:8));
+    }
+    const centerX=(left+right)/2,centerZ=(near+far)/2,old=this.overheadOffset;
+    const x=old?follow(old.x,centerX,3,dt):centerX,z=old?follow(old.z,centerZ,3,dt):centerZ;
+    this.overheadOffset={x,z,top,spanX:Math.max(x-left,right-x),spanZ:Math.max(z-near,far-z)};
   }
   overheadFrame(){
-    const s=this.s,b=this.aircraft.boss,aspect=this.canvas.width/this.canvas.height,tan=.64;
-    const [dx,dy,dz]=this.overheadOffset??[b.x-s.x,b.y-s.y,b.z-s.z];
-    const height=Math.max(140,125/aspect,(Math.abs(dx)*.55+45)/(tan*aspect),(Math.abs(dz)*.55+40)/tan);
-    return {eye:[s.x+dx*.5,s.y+Math.max(0,dy)+height,s.z+dz*.5],aspect,tan};
+    if(!this.overheadOffset)this.updateOverheadBounds(0);
+    const s=this.s,aspect=this.canvas.width/this.canvas.height,tan=.64;
+    const {x,z,top,spanX,spanZ}=this.overheadOffset;
+    const height=Math.max(140,125/aspect,spanX/(tan*aspect*.88),spanZ/(tan*.84));
+    return {eye:[s.x+x,s.y+top+height,s.z+z],aspect,tan};
   }
   camera(){
     const s=this.s,aspect=this.canvas.width/this.canvas.height,yaw=s.heading,sh=Math.sin(yaw),ch=Math.cos(yaw),cp=Math.cos(s.pitch),sp=Math.sin(s.pitch);
@@ -2438,21 +2477,26 @@ class Patrol {
   encounter(cam){
     const a=this.aircraft,b=a.boss,s=this.s,stage=STAGES[a.stageIndex];
     if(this.shownStage!==a.stageIndex||this.stageLanguage!==language){
-      byId('monsterName').textContent=localText(stage.nameEn.toUpperCase(),stage.nameZh);
+      byId('monsterName').textContent=localText(stage.nameEn.toUpperCase()+' FLIGHT',stage.nameZh+'编队');
       byId('stageLabel').textContent=localText('STAGE ','关卡 ')+(a.stageIndex+1)+' / '+STAGES.length;
       this.shownStage=a.stageIndex;this.stageLanguage=language;
     }
+    const hostiles=a.hostileCount;
+    if(this.shownHostiles!==hostiles){byId('hostileCount').textContent=String(hostiles);this.shownHostiles=hostiles}
     let status=localText('ENGAGED','交战中');
     if(a.campaignWon)status=localText('ALL CLEAR','全关通关');
-    else if(!b.alive)status=localText('STAGE CLEAR','本关已过');
+    else if(a.inIntermission)status=localText('STAGE CLEAR','本关已过');
     else if(this.time-this.shieldTime<1.4)status=this.shieldEvent==='reboot'?localText('REBOOT','护盾重启'):localText('SHIELD HIT','护盾受击');
+    else if(!b.alive)status=localText('FIGHTERS ACTIVE','敌机交战中');
     else if(b.phase==='charging')status=localText('PULSE CHARGING','脉冲蓄力');
-    const armor=byId('bossHealth'),hp=Math.ceil(b.hp/b.maxHp*100),shield=Math.ceil(a.shield);
+    const totalHP=a.escorts.reduce((sum,e)=>sum+(e.alive?e.hp:0),b.alive?b.hp:0);
+    const armor=byId('bossHealth'),hp=Math.ceil(totalHP/a.formationMaxHP*100),shield=Math.ceil(a.shield);
     byId('restartCampaign').hidden=!a.campaignWon;
     if(this.shownHP!==hp){armor.style.transform='scaleX('+hp/100+')';armor.parentElement.setAttribute('aria-valuenow',hp);this.shownHP=hp}
     if(this.shownShield!==shield){byId('shield').textContent=shield;this.shownShield=shield}
     if(this.shownStatus!==status){byId('bossStatus').textContent=status;this.shownStatus=status}
-    if(this.shownPhase!==b.phase){byId('encounter').dataset.phase=b.phase;this.shownPhase=b.phase}
+    const phase=hostiles===0?'clear':b.alive?b.phase:'patrol';
+    if(this.shownPhase!==phase){byId('encounter').dataset.phase=phase;this.shownPhase=phase}
     const g=this.cockpit.ctx,w=g.canvas.width,h=g.canvas.height,f=h*.5/cam.tan;
     const project=(x,y,z)=>{
       const v=[x-cam.eye[0],y-cam.eye[1],z-cam.eye[2]],depth=dot(v,cam.forward);
@@ -2469,24 +2513,35 @@ class Patrol {
         }
       }
     }
-    if(!b.alive || !a.terrainClear(s.x,s.y,s.z,b.x,b.y,b.z))return;
-    const [bx,by,depth]=project(b.x,b.y,b.z),scale=f/Math.max(.1,Math.abs(depth));
-    const px=Math.round(w/2+bx*scale),py=Math.round(h/2+by*scale);
-    const bottom=cam.alpha>.85?Math.round(h*.64):h-11;
-    const radius=clamp(Math.round(37*f/Math.max(depth,1)),7,45);
-    const ink=b.hit>.45?'#fff5d0':b.phase==='charging'?'#ffe3a5':'#ebae92';
-    if(depth>0&&px>radius&&px<w-radius&&py>radius&&py<bottom-radius){
-      const ry=Math.max(6,Math.round(radius*.58));
-      for(const [off,color] of [[1,'#46384a'],[0,ink]])for(const side of [-1,1])for(const vertical of [-1,1]){
-        const x=px+side*radius,y=py+vertical*ry+off;
-        rect(x-(side===1?3:0),y,4,1,color);rect(x,y-(vertical===1?2:0),1,3,color);
+    const focus=b.alive?b:a.selectTarget([s.x,s.y,s.z],'missile');
+    const bottom=cam.alpha>.002?Math.min(h-11,this.cockpit.panelY-10):h-11;
+    for(const enemy of [b,...a.escorts]){
+      if(!enemy.alive)continue;
+      const [bx,by,depth]=project(enemy.x,enemy.y,enemy.z);
+      const scale=f/Math.max(.1,Math.abs(depth)),px=Math.round(w/2+bx*scale),py=Math.round(h/2+by*scale);
+      const boss=enemy===b, radius=boss?clamp(Math.round(37*scale),7,45):clamp(Math.round(15*scale),4,18);
+      const ry=boss?Math.max(6,Math.round(radius*.58)):Math.max(4,Math.round(radius*.46));
+      const ink=enemy.hit>.45?'#fff5d0':boss?(b.phase==='charging'?'#ffe3a5':'#ebae92'):'#a6ded0';
+      if(depth>0&&px>radius+2&&px<w-radius-2&&py>ry+2&&py<bottom-ry-2){
+        if(!a.terrainClear(...cam.eye,enemy.x,enemy.y,enemy.z))continue;
+        if(boss){
+          for(const [off,color] of [[1,'#46384a'],[0,ink]])for(const side of [-1,1])for(const vertical of [-1,1]){
+            const x=px+side*radius,y=py+vertical*ry+off;
+            rect(x-(side===1?3:0),y,4,1,color);rect(x,y-(vertical===1?2:0),1,3,color);
+          }
+        }else{
+          // Two small notches leave the fighter silhouette unobstructed.
+          for(const side of [-1,1]){
+            const x=px+side*radius,y=py-ry;
+            rect(x-1,y,3,2,'#324349');rect(x-1,y,3,1,ink);
+          }
+        }
+      }else if(enemy===focus){
+        const x=bx||.001,y=Math.abs(by)<.01&&depth<0?8:by;
+        const cy=bottom/2,edge=Math.min((w*.5-14)/Math.abs(x),(cy-13)/Math.max(.001,Math.abs(y)));
+        const ex=w/2+x*edge,ey=cy+y*edge,len=Math.hypot(x,y),dx=x/len,dy=y/len;
+        for(let i=0;i<5;i++)for(const side of [-1,1])rect(ex-i*dx+side*i*dy,ey-i*dy-side*i*dx,2,2,ink);
       }
-    }else{
-      // Project the direction onto an inset frame, including targets behind the camera.
-      const x=bx||.001,y=Math.abs(by)<.01&&depth<0?8:by;
-      const cy=bottom/2,edge=Math.min((w*.5-14)/Math.abs(x),(cy-13)/Math.max(.001,Math.abs(y)));
-      const ex=w/2+x*edge,ey=cy+y*edge,len=Math.hypot(x,y),dx=x/len,dy=y/len;
-      for(let i=0;i<5;i++)for(const side of [-1,1])rect(ex-i*dx+side*i*dy,ey-i*dy-side*i*dx,2,2,ink);
     }
   }
   draw(){
