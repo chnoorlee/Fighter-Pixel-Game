@@ -6,18 +6,20 @@ Fly a twin-engine jet over autumn lakes at sunset and take on the Vesper Crown. 
 
 [Play in your browser](https://fighter-pixel-game.vercel.app) or download the single-file HTML from the [latest release](https://github.com/chnoorlee/Fighter-Pixel-Game/releases/latest). The game uses raw WebGL 2 for the world, Canvas 2D for the cockpit and Web Audio for sound. Sound starts muted. Settings lets you choose English or 简体中文.
 
+Desktop starts in **Auto**. Move the mouse or trackpad cursor over the flight area to take control without clicking. In chase and cockpit views, moving above or below center pitches the nose up or down. Left and right turn the jet. Moving back to center levels out. In the north-up overview, point where you want the aircraft to fly. A directional key takes over until you move the cursor again. Settings also lets you select **Mouse** or **Keyboard** and remembers your choice.
+
 | Action | Desktop | Phone |
 | --- | --- | --- |
-| Turn left / right | A / D or left / right arrow | Tilt left / right |
-| Climb / dive | W / S or up / down arrow | Raise / lower the top edge from your calibrated grip |
+| Turn left / right | Cursor left / right, A / D or left / right arrow | Tilt left / right |
+| Climb / dive | Cursor up / down in chase or cockpit, W / S or up / down arrow | Raise / lower the top edge from your calibrated grip |
 | Afterburner | Hold Shift | Hold Boost on the right |
 | Cannon | Hold the left mouse button or J | Hold Cannon on the right |
 | Missile | Right-click or press F | Tap Missile on the right |
 | Barrel roll | Q for left, E for right | Steer around the pulse with tilt |
-| Change view | Space | Tap the camera button |
+| Change view | Space | Tap **Switch view** at the lower left |
 
 On a phone, open the HTTPS game link and hold your device in a comfortable flying position. Tap **Enable motion** if prompted. Tilt sets your course in portrait and landscape. Open Settings and choose **Recenter tilt** to change your neutral grip. Boost and Cannon can be held together while a third finger taps Missile.
 
-**中文版**　用机炮或导弹击破「暮色王冠」。它的核心发亮时准备转向躲避；半血后会发射三路脉冲。电脑用 WASD 或方向键驾驶，Shift 加速，按住左键或 J 开机炮，右键或 F 发导弹，Q / E 向左或向右桶滚，空格切换视角。
+**中文版**　用机炮或导弹击破「暮色王冠」。它的核心发亮时准备转向躲避；半血后会发射三路脉冲。电脑默认「自动」驾驶模式。移动鼠标或触控板光标就能驾驶，按 WASD 或方向键可接管。追尾和座舱视角中，光标向上爬升、向下俯冲、向两侧转弯，回到中心会回正。俯视时飞机朝光标所在位置转向。设置内也可以固定为「鼠标」或「键盘」模式。Shift 加速，按住左键或 J 开机炮，右键或 F 发导弹，Q / E 向左或向右桶滚，空格切换视角。
 
-手机通过倾斜操纵。首次打开时自然握住手机，出现权限提示时点「启用体感」。向左右倾斜转弯，抬高手机上沿爬升，压低上沿俯冲。右侧可以同时按住加力、机炮，再点按导弹。点设置可以重新校准握姿，也可以切换中英文。
+手机通过倾斜操纵。首次打开时自然握住手机，出现权限提示时点「启用体感」。向左右倾斜转弯，抬高手机上沿爬升，压低上沿俯冲。点左下角「切换视角」可以在追尾、座舱、俯视之间循环。右侧可以同时按住加力、机炮，再点按导弹。点设置可以重新校准握姿，也可以切换中英文。

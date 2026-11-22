@@ -45,7 +45,6 @@ footer{position:relative;flex:none;min-height:57px;background:#1c202c;border-top
 .touch{display:none;position:absolute;right:15px;bottom:62px;gap:7px}.touch button{height:40px;min-width:50px;touch-action:none}.touch button.held{color:var(--honey);border-color:var(--honey)}.touchhint{display:none}
 #failure{display:none;position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);background:var(--ink);padding:20px;max-width:90%;text-align:center}
 @media(max-width:820px){.hints{gap:12px}.hint{gap:4px}.payload{gap:6px}footer{padding-inline:16px}.patch{width:44px;height:44px}header{gap:10px}h1{font-size:29px}#wordmark{width:224px;height:28px}}
-@media(pointer:coarse){.touch{display:flex}.hints{display:none}.touchhint{display:block;font-size:11px;color:#d3cfd2}}
 @media(max-width:680px){.patch{width:37px;height:37px}h1{font-size:21px}#wordmark{width:160px;height:20px}.region{font-size:8px;gap:6px;margin-top:6px}header{left:14px;top:18px;gap:8px}.sound{right:13px;top:19px;padding:0 7px;gap:5px;font-size:9px;height:28px}.hints{flex-wrap:wrap;max-width:75%;gap:5px 12px}.hint{font-size:9px}.payload>span:first-child{display:none}.telemetry{gap:8px;right:15px}.mode{left:14px}.touch{bottom:65px}.in-cockpit .touch{bottom:auto;top:110px}.in-cockpit .telemetry{display:none}footer{min-height:48px}}
 @media(max-height:430px){header{top:10px;transform:scale(.8);transform-origin:top left}.sound{top:10px}.mode,.telemetry{bottom:9px}footer{min-height:35px;padding-block:4px}.touch{bottom:47px}.in-cockpit .touch{top:55px;bottom:auto;right:170px}}
 @media(pointer:coarse) and (min-height:431px){.in-cockpit .mode{top:65px}.in-cockpit .touch{top:113px;bottom:auto}}
@@ -56,6 +55,8 @@ footer{position:relative;flex:none;min-height:57px;background:#1c202c;border-top
 #settingsDialog::backdrop{background:#17182583}
 #settingsDialog h2{font-size:19px;margin:0 0 18px}
 #settingsDialog fieldset{padding:0;margin:0;border:0;display:flex}
+#settingsDialog #pilotSettings{margin-top:16px}.mobile-flight #settingsDialog #pilotSettings{display:none}
+#sky.cursor-flight .screen{cursor:crosshair}
 #settingsDialog legend{font-size:12px;color:#d8ced1;margin-bottom:7px}
 #settingsDialog label{position:relative;flex:1;cursor:pointer}
 #settingsDialog label span{height:44px;display:grid;place-items:center;border:1px solid #74717b;font-size:13px;background:#2a2d3b}
@@ -82,6 +83,12 @@ html[lang="zh-CN"] #wordmark{display:none}html[lang="zh-CN"] h1 .google-title{di
 .motion-card p{margin:0;font-size:12px;line-height:1.5}
 .motion-card button{margin-top:8px;color:var(--honey);min-width:92px}
 .mobile-flight .touchhint{display:block;font-size:11px;color:#d3cfd2}.mobile-flight .hints{display:none}
+.view-action{display:none}
+.mobile-flight #view{left:max(14px,env(safe-area-inset-left));right:auto;top:auto;bottom:max(10px,env(safe-area-inset-bottom));width:130px;height:47px;min-height:47px;justify-content:flex-start;gap:9px;padding:4px 10px;user-select:none;-webkit-user-select:none;touch-action:none}
+.mobile-flight #view .view-copy{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.mobile-flight #view .view-action{display:block;color:var(--cream);font-size:12px;font-weight:600}
+.mobile-flight #viewLabel{color:var(--honey);font-size:10px}
+.mobile-flight #view .segments{display:none}
 @media(max-height:475px){.mobile-flight .touch{right:max(12px,env(safe-area-inset-right));top:auto;bottom:47px;transform:none;gap:5px}.mobile-flight .touch button{min-height:45px;min-width:59px}.mobile-flight .in-cockpit .mode{right:auto;left:max(14px,env(safe-area-inset-left));top:auto;bottom:9px}.mobile-flight .motion-card{bottom:61px}}
 </style>
 </head>
@@ -94,14 +101,14 @@ html[lang="zh-CN"] #wordmark{display:none}html[lang="zh-CN"] h1 .google-title{di
 <div class="encounter" id="encounter"><div class="encounter-head"><strong data-zh="暮色王冠">VESPER CROWN</strong><span>BOSS</span></div><div class="health-track" role="progressbar" aria-label="Boss health" data-zh-label="Boss 生命值" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i id="bossHealth"></i></div><div class="encounter-foot"><span><span data-zh="护盾">SHIELD</span> <b id="shield">100</b></span><output id="bossStatus"></output></div></div>
 <div class="tools"><button type="button" class="sound" id="sound" title="Toggle synthesized sound" data-zh-title="切换合成音效" aria-pressed="false"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8h4l4-4v12l-4-4H3z"/><path class="wave" d="M14 7q3 3 0 6m2-9q6 6 0 12"/><path class="mute-slash" d="m14 8 4 4m0-4-4 4"/></svg><span>SOUND OFF</span></button>
 <button type="button" id="settingsOpen" class="sound" title="Settings" data-zh-title="设置" aria-label="Settings" data-zh-label="设置" aria-haspopup="dialog" aria-controls="settingsDialog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9m4 0h3M4 12h2m4 0h10M4 18h7m4 0h5"/><path d="M13 4h4v4h-4zm-7 6h4v4H6zm5 6h4v4h-4z"/></svg></button></div>
-<button type="button" class="mode" id="view" title="Cycle camera (Space)" data-zh-title="切换视角（空格）" aria-label="Cycle camera. Current view Chase"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7V4h4m8 0h4v3m0 6v3h-4M6 16H2v-3m3-3h3l2-3 2 3h3"/></svg><span id="viewLabel">CHASE CAM</span><span class="segments" aria-hidden="true"><i></i><i class="active"></i><i></i></span></button>
+<button type="button" class="mode" id="view" title="Cycle camera (Space)" data-zh-title="切换视角（空格）" aria-label="Switch view. Current view Chase"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7V4h4m8 0h4v3m0 6v3h-4M6 16H2v-3m3-3h3l2-3 2 3h3"/></svg><span class="view-copy"><span class="view-action" data-zh="切换视角">Switch view</span><span id="viewLabel">CHASE CAM</span></span><span class="segments" aria-hidden="true"><i></i><i class="active"></i><i></i></span></button>
 <div class="telemetry" aria-label="Flight telemetry" data-zh-label="飞行数据"><span title="Indicated airspeed in knots" data-zh-title="指示空速（节）"><small>IAS</small> <b id="spd">087</b> KT</span><span title="Altitude in feet" data-zh-title="海拔高度（英尺）"><small>ALT</small> <b id="alt">476</b> FT</span></div>
 <div class="touch"><button type="button" id="touchBoost" title="Hold for afterburner" data-zh-title="按住开启加力"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7m-14 7 7-7 7 7"/></svg><span data-zh="加力">BOOST</span></button><button type="button" id="touchCannon" title="Hold to fire cannon" data-zh-title="按住发射机炮"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 18 8-8m-3 11 9-9m-4-5 4-4m1 6 4-4"/></svg><span data-zh="机炮">CANNON</span></button><button type="button" id="touchFire" title="Launch missile" data-zh-title="发射导弹"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 14 9-9 4-1-1 4-9 9-3-3zm0 0-4 1 2-4 4-1m1 7-1 4 4-2 1-4m-9 3-2 2"/></svg><span data-zh="导弹">MISSILE</span></button></div>
 <aside id="motionCard" class="motion-card" hidden><p id="motionMessage" role="status"></p><button type="button" id="motionStart"></button></aside>
 <div id="failure" role="alert"></div>
 </section>
 <footer aria-label="Flight controls and missile inventory" data-zh-label="飞行操控与导弹余量"><div class="hints">
-<span class="hint"><kbd>WASD / ↕↔</kbd><span data-zh="驾驶">Pilot</span></span>
+<span class="hint"><kbd id="pilotHint">MOUSE / WASD</kbd><span data-zh="驾驶">Pilot</span></span>
 <span class="hint"><kbd>SHIFT</kbd><span data-zh="加速">Boost</span></span>
 <span class="hint"><kbd data-zh="左键 / J">LMB / J</kbd><span data-zh="机炮">Cannon</span></span>
 <span class="hint"><kbd data-zh="右键 / F">RMB / F</kbd><span data-zh="导弹">Missile</span></span>
@@ -111,6 +118,7 @@ html[lang="zh-CN"] #wordmark{display:none}html[lang="zh-CN"] h1 .google-title{di
 <dialog id="settingsDialog" aria-labelledby="settingsTitle">
 <h2 id="settingsTitle" data-zh="设置">Settings</h2>
 <fieldset><legend data-zh="界面语言">Language</legend><label><input type="radio" id="langEn" name="language" value="en"><span lang="en">English</span></label><label><input type="radio" id="langZh" name="language" value="zh"><span lang="zh-CN">简体中文</span></label></fieldset>
+<fieldset id="pilotSettings"><legend data-zh="驾驶模式">Flight controls</legend><label><input type="radio" name="pilotMode" value="auto" checked><span data-zh="自动">Auto</span></label><label><input type="radio" name="pilotMode" value="mouse"><span data-zh="鼠标">Mouse</span></label><label><input type="radio" name="pilotMode" value="keyboard"><span data-zh="键盘">Keyboard</span></label></fieldset>
 <div class="motion-settings"><p id="motionSettingStatus" role="status"></p><button type="button" id="motionRecenter"></button></div>
 <button type="button" id="settingsClose" data-zh="继续飞行">Resume flight</button>
 </dialog>
@@ -1652,7 +1660,7 @@ const localText=(en,zh)=>language==='zh'?zh:en;
 const viewName=mode=>[localText('TOP DOWN','俯视'),localText('CHASE CAM','追尾视角'),localText('COCKPIT','座舱')][mode];
 function showViewName(mode){
   const name=viewName(mode);byId('viewLabel').textContent=name;
-  byId('view').setAttribute('aria-label',localText('Cycle camera. Current view '+name,'切换视角。当前为'+name));
+  byId('view').setAttribute('aria-label',localText('Switch view. Current view '+name,'切换视角。当前为'+name));
 }
 function showSoundName(on){
   const name=on?localText('SOUND ON','声音开'):localText('SOUND OFF','声音关');
@@ -1674,6 +1682,7 @@ function setLanguage(value,persist=false){
   }
   byId('langEn').checked=value==='en';byId('langZh').checked=value==='zh';
   showViewName(patrol?.mode??1);showSoundName(patrol?.sound.on??false);
+  if(patrol)patrol.showPilotMode();
   patrol?.mobile?.refresh();
   byId('payload').setAttribute('aria-label',inventoryName(patrol?.aircraft.ammo??4));
   if(patrol && !patrol.lost)patrol.draw();
@@ -1903,6 +1912,11 @@ class Patrol {
     this.sound=new EngineSound();this.wireCombat();
     this.s={x:0,y:145,z:0,heading:0,pitch:0,bank:0,boost:0,speed:46,g:1,turnRate:0,verticalSpeed:0,slip:0};
     this.time=0;this.mode=1;this.stick=[0,0];this.manual=false;this.keys=new Set();this.mouseCannon=false;this.bank=0;
+    this.cursor=null;this.pilotMode='auto';this.pilotSource='keyboard';
+    try{
+      const saved=localStorage.getItem('dusk-patrol.pilot-mode');
+      if(['auto','mouse','keyboard'].includes(saved))this.pilotMode=saved;
+    }catch{}
     this.rollTime=2;this.rollSign=1;this.height=340;this.slow=0;this.buffer=0;this.last=0;this.tally=-1;this.tick=0;
     this.hull=[[12.4,-.45,-6.4],[-12.4,-.45,-6.4],[0,0,13.9],[0,-1.7,-10.7],[6,5.7,-9],[-6,5.7,-9]];
     this.resize();this.bind();this.draw();requestAnimationFrame(t=>this.frame(t));
@@ -1916,6 +1930,37 @@ class Patrol {
   }
   bind(){
     const sky=this.screen;
+    const mouseHardware=matchMedia('(any-pointer:fine)');
+    const useDesktop=value=>{
+      if(this.desktopInput===value)return;
+      this.desktopInput=value;this.cursor=null;
+      document.documentElement.classList.toggle('mobile-flight',!value);
+      this.showPilotMode();
+    };
+    const directions=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowLeft','ArrowDown','ArrowRight']);
+    sky.addEventListener('pointermove',e=>{
+      if(e.pointerType!=='mouse'||this.paused||this.lost)return;
+      useDesktop(true);
+      if(this.pilotMode==='keyboard')return;
+      if(e.target.closest('button,aside')){this.cursor=null;return}
+      const r=sky.getBoundingClientRect();
+      this.cursor=[clamp(2*(e.clientX-r.left)/r.width-1,-1,1),clamp(2*(e.clientY-r.top)/r.height-1,-1,1)];
+      this.pilotSource='mouse';this.manual=true;
+    });
+    for(const event of ['pointerleave','pointercancel'])sky.addEventListener(event,e=>{if(e.pointerType==='mouse')this.cursor=null});
+    sky.addEventListener('pointerdown',e=>{
+      if(e.pointerType==='touch'&&this.mobile.enabled&&!mouseHardware.matches)useDesktop(false);
+    },true);
+    mouseHardware.addEventListener('change',()=>{
+      this.cursor=null;useDesktop(!this.mobile.enabled||mouseHardware.matches);this.showPilotMode();
+    });
+    for(const input of byId('pilotSettings').querySelectorAll('input')){
+      input.onchange=()=>{
+        if(!input.checked)return;
+        this.pilotMode=input.value;this.cursor=null;this.pilotSource='keyboard';this.showPilotMode();
+        try{localStorage.setItem('dusk-patrol.pilot-mode',input.value)}catch{}
+      };
+    }
     // Mouse events also report the second press and first release of a chord.
     sky.addEventListener('mousedown',e=>{
       if(this.paused||e.target.closest('button,aside')||e.sourceCapabilities?.firesTouchEvents)return;
@@ -1925,13 +1970,24 @@ class Patrol {
     });
     window.addEventListener('mouseup',e=>{if(e.button===0)this.mouseCannon=false});
     sky.addEventListener('contextmenu',e=>e.preventDefault());
-    byId('view').onclick=()=>this.cycle();byId('sound').onclick=()=>this.sound.toggle().catch(()=>{});
+    const viewButton=byId('view');
+    // Pointer releases also work for secondary fingers. A zero-detail click covers keyboard and AT activation.
+    viewButton.addEventListener('pointerdown',e=>{
+      if(e.button===0&&e.pointerType!=='touch')viewButton.setPointerCapture(e.pointerId);
+    });
+    viewButton.addEventListener('pointerup',e=>{
+      if(e.button!==0||(e.pointerType!=='touch'&&!viewButton.hasPointerCapture(e.pointerId)))return;
+      if(viewButton.contains(document.elementFromPoint(e.clientX,e.clientY)))this.cycle();
+    });
+    viewButton.onclick=e=>{if(e.detail===0)this.cycle()};
+    byId('sound').onclick=()=>this.sound.toggle().catch(()=>{});
     const controls=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowLeft','ArrowDown','ArrowRight','ShiftLeft','ShiftRight','KeyJ','KeyF','KeyQ','KeyE','Space']);
     window.addEventListener('keydown',e=>{
       if(this.paused||this.lost||e.altKey||e.ctrlKey||e.metaKey||!controls.has(e.code))return;
       if(e.code==='Space'&&e.target.closest?.('button:focus-visible,input'))return;
       e.preventDefault();if(e.repeat||this.keys.has(e.code))return;
       this.keys.add(e.code);
+      if(directions.has(e.code)){useDesktop(true);this.pilotSource='keyboard'}
       if(e.code==='Space'){this.cycle();return}
       this.manual=true;
       if(e.code==='KeyF')this.fire();
@@ -1946,10 +2002,19 @@ class Patrol {
       this.aircraft.initializeGraphics();this.resize();this.lost=false;this.buffer=0;this.last=0;
     });
     this.mobile=new MobilePilot(this);
+    useDesktop(!this.mobile.enabled||mouseHardware.matches);
+  }
+  showPilotMode(){
+    const mode=this.pilotMode;
+    byId('pilotSettings').querySelector('input[value="'+mode+'"]').checked=true;
+    const hasMouse=matchMedia('(any-pointer:fine)').matches;
+    const cursorMode=mode!=='keyboard'&&hasMouse&&this.desktopInput;
+    byId('pilotHint').textContent=cursorMode?(mode==='auto'?localText('MOUSE / WASD','鼠标 / WASD'):localText('MOUSE','鼠标')):'WASD / ↕↔';
+    this.screen.classList.toggle('cursor-flight',cursorMode);
   }
   resetControls(){
     this.keys.clear();this.mouseCannon=false;this.aircraft.cannonHeld=false;this.mobile?.reset();
-    this.stick=[0,0];this.last=0;this.slow=0;
+    this.stick=[0,0];this.cursor=null;this.pilotSource='keyboard';this.last=0;this.slow=0;
   }
   wireCombat(){
     this.aircraft.onImpact=()=>this.sound.effect(true);
@@ -1973,12 +2038,21 @@ class Patrol {
     const s=this.s;this.time+=dt;this.rollTime+=dt;let turn,attitude;
     const axis=v=>Math.sign(v)*Math.pow(Math.max(0,(Math.abs(v)-.045)/.955),1.35);
     const k=this.keys,key=(a,b)=>Number(k.has(a)||k.has(b));
-    if(this.mobile.enabled){this.stick=this.mobile.active?this.mobile.stick:[0,0]}
-    else{this.stick=[key('KeyD','ArrowRight')-key('KeyA','ArrowLeft'),key('KeyS','ArrowDown')-key('KeyW','ArrowUp')]}
-    if(!this.manual&&!this.mobile.enabled){turn=.075*Math.sin(this.time*.29+.2);attitude=.015*Math.sin(this.time*.22)}
+    const left=key('KeyA','ArrowLeft'),right=key('KeyD','ArrowRight'),up=key('KeyW','ArrowUp'),down=key('KeyS','ArrowDown');
+    const mouseSteering=this.desktopInput&&this.cursor&&!(left||right||up||down)&&(this.pilotMode==='mouse'||this.pilotMode==='auto'&&this.pilotSource==='mouse');
+    if(!this.desktopInput){this.stick=this.mobile.active?this.mobile.stick:[0,0]}
+    else{this.stick=mouseSteering?this.cursor:[right-left,down-up]}
+    if(!this.manual&&this.desktopInput){turn=.075*Math.sin(this.time*.29+.2);attitude=.015*Math.sin(this.time*.22)}
+    else if(mouseSteering&&this.mode===0){
+      const view=this.overheadFrame(),span=(view.eye[1]-s.y)*view.tan;
+      // Project the cursor onto the horizontal plane through the jet.
+      const dx=view.eye[0]-s.x+this.cursor[0]*span*view.aspect,dz=view.eye[2]-s.z-this.cursor[1]*span;
+      turn=Math.hypot(dx,dz)>span*.035?clamp(2*wrap(Math.atan2(dx,dz)-s.heading),-1.1,1.1):0;
+      attitude=0;
+    }
     else{turn=axis(this.stick[0])*1.1;attitude=-axis(this.stick[1])*.61}
     this.aircraft.cannonHeld=this.mouseCannon||k.has('KeyJ')||this.mobile.cannon;
-    this.aircraft.encounterReady=!this.mobile.enabled||this.mobile.active;
+    this.aircraft.encounterReady=this.desktopInput||this.mobile.active;
     s.boost=follow(s.boost,(this.mobile.boost||k.has('ShiftLeft')||k.has('ShiftRight'))?1:0,5.5,dt);
     s.speed=follow(s.speed,46+s.boost*48-Math.sin(s.pitch)*7,1.0,dt);
     s.turnRate=follow(s.turnRate,turn,2.8,dt);s.heading=wrap(s.heading+s.turnRate*dt);
@@ -2010,15 +2084,19 @@ class Patrol {
     const desired=b.alive?[b.x-s.x,b.y-s.y,b.z-s.z]:[0,0,0];
     this.overheadOffset=this.overheadOffset?this.overheadOffset.map((n,i)=>follow(n,desired[i],3,dt)):desired;
   }
+  overheadFrame(){
+    const s=this.s,b=this.aircraft.boss,aspect=this.canvas.width/this.canvas.height,tan=.64;
+    const [dx,dy,dz]=this.overheadOffset??[b.x-s.x,b.y-s.y,b.z-s.z];
+    const height=Math.max(140,125/aspect,(Math.abs(dx)*.55+45)/(tan*aspect),(Math.abs(dz)*.55+40)/tan);
+    return {eye:[s.x+dx*.5,s.y+Math.max(0,dy)+height,s.z+dz*.5],aspect,tan};
+  }
   camera(){
     const s=this.s,aspect=this.canvas.width/this.canvas.height,yaw=s.heading,sh=Math.sin(yaw),ch=Math.cos(yaw),cp=Math.cos(s.pitch),sp=Math.sin(s.pitch);
     const body=[sh*cp,sp,ch*cp],right=[ch,0,-sh],bodyUp=cross(body,right);
     let eye,forward,upRef,alpha=0,jetVisibility=1;
     let tan=.52+s.boost*.035;
     if(this.mode===0){
-      tan=.64;const b=this.aircraft.boss,[dx,dy,dz]=this.overheadOffset??[b.x-s.x,b.y-s.y,b.z-s.z];
-      const height=Math.max(140,125/aspect,(Math.abs(dx)*.55+45)/(tan*aspect),(Math.abs(dz)*.55+40)/tan);
-      eye=[s.x+dx*.5,s.y+Math.max(0,dy)+height,s.z+dz*.5];forward=[0,-1,0];upRef=[0,0,1];
+      const overhead=this.overheadFrame();eye=overhead.eye;tan=overhead.tan;forward=[0,-1,0];upRef=[0,0,1];
     }
     else if(this.mode===2){
       eye=[s.x+body[0]*5,s.y+2.9+body[1]*5,s.z+body[2]*5];forward=body;upRef=bodyUp.map((v,i)=>v*Math.cos(s.bank)+right[i]*Math.sin(s.bank));alpha=1;jetVisibility=0;
