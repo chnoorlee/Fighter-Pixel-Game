@@ -1,6 +1,6 @@
 # Dusk Patrol · 暮光巡航
 
-Fly a twin-engine jet over autumn lakes at sunset and take on the Vesper Crown. Follow the target brackets, line up the nose and hold the cannon trigger. When the Crown's core brightens, turn out of its path. At half health it begins firing volleys. Defeating the Crown gives you eight seconds to regroup before the next encounter.
+Fly a twin-engine jet over autumn lakes at sunset. Defeat the Cloud Ray, Ember Hornet, Prism Medusa and Iron Crown in sequence. Fighter escorts fly alongside each monster. Each monster has more health and attacks faster than the last. Aim the cannon with the target brackets, or launch a missile to track the nearest enemy automatically. The rack refills to four missiles every 2.5 seconds of flight. After the final stage, select **Fly again** to start a new campaign.
 
 ![Chase view over the lake](screenshots/chase.png)
 
@@ -10,16 +10,16 @@ Desktop starts in **Auto**. Move the mouse or trackpad cursor over the flight ar
 
 | Action | Desktop | Phone |
 | --- | --- | --- |
-| Turn left / right | Cursor left / right, A / D or left / right arrow | Tilt left / right |
-| Climb / dive | Cursor up / down in chase or cockpit, W / S or up / down arrow | Raise / lower the top edge from your calibrated grip |
-| Afterburner | Hold Shift | Hold Boost on the right |
+| Turn left / right | Cursor left / right, A / D or left / right arrow | Drag the joystick left / right |
+| Climb / dive | Cursor up / down in chase or cockpit, W / S or up / down arrow | Drag the joystick up / down |
+| Boost | Hold Shift or hold the on-screen Boost button | Hold Boost on the right |
 | Cannon | Hold the left mouse button or J | Hold Cannon on the right |
 | Missile | Right-click or press F | Tap Missile on the right |
-| Barrel roll | Q for left, E for right | Steer around the pulse with tilt |
+| Barrel roll | Q for left, E for right | Steer around incoming fire |
 | Change view | Space | Tap **Switch view** at the lower left |
 
-On a phone, open the HTTPS game link and hold your device in a comfortable flying position. Tap **Enable motion** if prompted. Tilt sets your course in portrait and landscape. Open Settings and choose **Recenter tilt** to change your neutral grip. Boost and Cannon can be held together while a third finger taps Missile.
+On a phone, drag the left joystick to steer and release it to center. Use the right-hand buttons to boost and fire while steering. For motion controls, choose **Tilt** in Settings, open the game over HTTPS and grant motion access if prompted. Select **Recenter tilt** to change your neutral grip.
 
-**中文版**　用机炮或导弹击破「暮色王冠」。它的核心发亮时准备转向躲避；半血后会发射三路脉冲。电脑默认「自动」驾驶模式。移动鼠标或触控板光标就能驾驶，按 WASD 或方向键可接管。追尾和座舱视角中，光标向上爬升、向下俯冲、向两侧转弯，回到中心会回正。俯视时飞机朝光标所在位置转向。设置内也可以固定为「鼠标」或「键盘」模式。Shift 加速，按住左键或 J 开机炮，右键或 F 发导弹，Q / E 向左或向右桶滚，空格切换视角。
+**中文版**　依次击破云鳐、烬刺蜂、棱光水母和铁冠。每过一关，怪物的生命值和攻击频率都会提高。每关都有护航敌机，导弹发射后会自动追踪最近的敌人，弹仓每 2.5 秒补满至 4 枚。击败铁冠后可点「再玩一次」从第一关重新挑战。电脑默认「自动」驾驶模式。移动鼠标或触控板光标就能驾驶，按 WASD 或方向键可接管。追尾和座舱视角中，光标向上爬升、向下俯冲、向两侧转弯，回到中心会回正。俯视时飞机朝光标所在位置转向。设置内也可以固定为「鼠标」或「键盘」模式。Shift 加速，按住左键或 J 开机炮，右键或 F 发导弹，Q / E 向左或向右桶滚，空格切换视角。
 
-手机通过倾斜操纵。首次打开时自然握住手机，出现权限提示时点「启用体感」。向左右倾斜转弯，抬高手机上沿爬升，压低上沿俯冲。点左下角「切换视角」可以在追尾、座舱、俯视之间循环。右侧可以同时按住加力、机炮，再点按导弹。点设置可以重新校准握姿，也可以切换中英文。
+手机默认使用左侧摇杆。左右拖动转弯，上推爬升，下拉俯冲，松手回中。驾驶时可以用右手按住加速或机炮，也可以点按导弹。左下角按钮切换视角。在设置里可改用「体感」倾斜操纵，需要时可重新校准。

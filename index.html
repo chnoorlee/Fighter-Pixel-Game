@@ -20,6 +20,9 @@
 .encounter{pointer-events:none;position:absolute;top:clamp(20px,4vh,44px);left:50%;transform:translateX(-50%);width:202px;padding:7px 10px 6px;border-left:3px solid #ee9b76;background:#262332e6;color:#ffe9ca;font-size:9px;line-height:1.3;user-select:none}
 .encounter-head,.encounter-foot{display:flex;align-items:baseline;justify-content:space-between;gap:5px}.encounter-head strong{font-size:11px}.encounter-foot{color:#c4cec3;margin-top:3px}.encounter-foot output{color:#ffdba3}
 .health-track{height:5px;background:#514148;margin-top:4px}.health-track i{display:block;width:100%;height:100%;background:#e99779;transform-origin:left;transition:transform .09s linear}
+.encounter-head{flex-wrap:wrap}.encounter-head #stageLabel{color:#e0cba8;white-space:nowrap}
+#restartCampaign{width:100%;margin-top:6px;min-height:36px;background:#303d3b;color:#d8efda;border:1px solid #8fab9d;font:inherit;pointer-events:auto}
+@media(pointer:coarse){#restartCampaign{min-height:44px}}
 .encounter[data-phase=charging]{border-color:#ffe090}.encounter[data-phase=charging] .health-track i{background:#f6bf73}.encounter[data-phase=defeated]{border-color:#9cbfac}
 @media(max-width:900px){.encounter{left:clamp(14px,3vw,48px);top:84px;transform:none;width:166px}}
 @media(max-width:680px){.encounter{left:14px;top:68px;width:148px;padding:5px 7px}.encounter-head strong{font-size:10px}.encounter-foot{font-size:8px}}
@@ -41,6 +44,8 @@ button:hover{border-color:var(--honey);background-color:#373344}.icon{width:18px
 footer{position:relative;flex:none;min-height:57px;background:#1c202c;border-top:2px solid #3c3d49;display:flex;align-items:center;justify-content:space-between;gap:13px;padding:9px clamp(16px,3vw,48px);user-select:none}
 .hints{display:flex;align-items:center;column-gap:clamp(11px,2vw,34px);row-gap:5px}.hint{display:flex;gap:7px;align-items:center;font-size:11px;font-weight:500;color:#d3cfd2;white-space:nowrap}.hint .icon{width:14px;height:17px;color:#ede4d2}kbd{font:600 10px/15px 'IBM Plex Mono',monospace;padding:0 4px;color:#eee3cd;background:#30333f;border:1px solid #5e5d68;border-bottom-width:2px;min-width:17px;text-align:center}
 .payload{display:flex;align-items:center;gap:12px;font-size:10px;font-weight:500;color:#bcb7ba;white-space:nowrap}.payload b{font-size:12px;color:var(--honey)}
+.rack-status{display:grid;justify-items:center;gap:1px;min-width:5ch}.rack-status small{font-size:9px;line-height:1;color:#dbd3c8}
+.hints{flex-wrap:wrap}.payload{flex-shrink:0}
 .rails{display:flex;gap:3px;align-items:center}.rail{width:6px;height:16px;display:block;background:#f3bb75;clip-path:polygon(33% 0,67% 0,67% 13%,83% 13%,83% 63%,100% 75%,100% 94%,67% 86%,67% 100%,33% 100%,33% 86%,0 94%,0 75%,17% 63%,17% 13%,33% 13%)}.rail.empty{background:#575361}
 .touch{display:none;position:absolute;right:15px;bottom:62px;gap:7px}.touch button{height:40px;min-width:50px;touch-action:none}.touch button.held{color:var(--honey);border-color:var(--honey)}.touchhint{display:none}
 #failure{display:none;position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);background:var(--ink);padding:20px;max-width:90%;text-align:center}
@@ -71,9 +76,22 @@ html[lang="zh-CN"] #wordmark{display:none}html[lang="zh-CN"] h1 .google-title{di
 @media(max-width:360px){.tools{right:8px}.tools #settingsOpen{min-width:32px}.tools{gap:4px}}
 @media(max-height:430px){.tools{top:10px}}
 .motion-card,.motion-settings{display:none}
+#flightStick,#settingsDialog #mobileSteering{display:none}
+.mobile-flight #settingsDialog #mobileSteering{display:flex;margin-top:16px}
+.mobile-flight.stick-steering #flightStick{display:grid;place-items:center;position:absolute;left:max(18px,env(safe-area-inset-left));bottom:max(75px,calc(env(safe-area-inset-bottom) + 65px));width:clamp(94px,16vmin,126px);aspect-ratio:1;border:2px solid #f7d5a79c;border-radius:50%;background:#23273985;box-shadow:inset 0 0 0 4px #2d314677,0 2px 0 #25233277;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+#flightStick::before,#flightStick::after{content:"";position:absolute;background:#ffe6b950;pointer-events:none}
+#flightStick::before{width:78%;height:1px}#flightStick::after{width:1px;height:78%}
+#stickKnob{position:relative;z-index:1;width:42%;aspect-ratio:1;border-radius:50%;border:2px solid #e5c39a;background:#614e4b;box-shadow:inset 0 0 0 3px #8b7369,0 2px 3px #251f2a99;pointer-events:none}
+#flightStick.held #stickKnob{background:#8c6247;border-color:#ffda98}
+.mobile-flight.stick-steering .motion-card,.mobile-flight.stick-steering .motion-settings{display:none}
+@media(max-height:430px){.mobile-flight.stick-steering #flightStick{width:84px;bottom:max(59px,calc(env(safe-area-inset-bottom) + 55px))}}
 .mobile-flight .touch{display:flex;right:max(12px,env(safe-area-inset-right));top:50%;bottom:auto;transform:translateY(-50%);flex-direction:column;gap:8px}
 .mobile-flight .touch button{min-height:52px;min-width:62px;flex-direction:column;gap:3px;padding:5px 6px;background:#202536e8;color:#f5dfbb;border:1px solid #928b89;border-bottom:3px solid #64616b;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .mobile-flight .touch button.held{color:#ffd68e;border-color:#e0a965;background:#59443e}
+html:not(.mobile-flight) .touch{display:flex;right:clamp(16px,3vw,48px);top:auto;bottom:60px}
+html:not(.mobile-flight) .touch button:not(#touchBoost){display:none}
+html:not(.mobile-flight) #touchBoost{min-width:84px;min-height:38px;padding:0 12px;touch-action:none;user-select:none}
+.touch #touchBoost.held{border-color:var(--honey);color:var(--honey);background:#59443e}
 .mobile-flight .touch .icon{height:17px;width:20px}
 .mobile-flight .motion-settings{display:block;margin-top:15px}
 .motion-settings p{font-size:12px;color:#c9c3bc;margin:0 0 6px}
@@ -98,12 +116,13 @@ html[lang="zh-CN"] #wordmark{display:none}html[lang="zh-CN"] h1 .google-title{di
 <canvas class="screen" id="world" aria-label="Dusk Patrol flight simulation" data-zh-label="暮光巡航飞行模拟"></canvas>
 <canvas class="screen" id="glass" aria-hidden="true"></canvas>
 <header><canvas class="patch" id="patch" width="40" height="40" aria-hidden="true"></canvas><div><h1 aria-label="Dusk Patrol" data-zh-label="暮光巡航"><canvas id="wordmark" width="64" height="8" aria-hidden="true"></canvas><span class="google-title" data-zh="暮光巡航">Dusk Patrol</span></h1><div class="region"><i></i><span data-zh="湖区 / 黄昏中队">LAKE COUNTRY &nbsp;/&nbsp; DUSK SQUADRON</span></div></div></header>
-<div class="encounter" id="encounter"><div class="encounter-head"><strong data-zh="暮色王冠">VESPER CROWN</strong><span>BOSS</span></div><div class="health-track" role="progressbar" aria-label="Boss health" data-zh-label="Boss 生命值" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i id="bossHealth"></i></div><div class="encounter-foot"><span><span data-zh="护盾">SHIELD</span> <b id="shield">100</b></span><output id="bossStatus"></output></div></div>
+<div class="encounter" id="encounter"><div class="encounter-head"><strong id="monsterName"></strong><span id="stageLabel"></span></div><div class="health-track" role="progressbar" aria-label="Enemy health" data-zh-label="怪物生命值" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i id="bossHealth"></i></div><div class="encounter-foot"><span><span data-zh="护盾">SHIELD</span> <b id="shield">100</b></span><output id="bossStatus"></output></div><button type="button" id="restartCampaign" data-zh="再玩一次" hidden>Fly again</button></div>
 <div class="tools"><button type="button" class="sound" id="sound" title="Toggle synthesized sound" data-zh-title="切换合成音效" aria-pressed="false"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8h4l4-4v12l-4-4H3z"/><path class="wave" d="M14 7q3 3 0 6m2-9q6 6 0 12"/><path class="mute-slash" d="m14 8 4 4m0-4-4 4"/></svg><span>SOUND OFF</span></button>
 <button type="button" id="settingsOpen" class="sound" title="Settings" data-zh-title="设置" aria-label="Settings" data-zh-label="设置" aria-haspopup="dialog" aria-controls="settingsDialog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9m4 0h3M4 12h2m4 0h10M4 18h7m4 0h5"/><path d="M13 4h4v4h-4zm-7 6h4v4H6zm5 6h4v4h-4z"/></svg></button></div>
 <button type="button" class="mode" id="view" title="Cycle camera (Space)" data-zh-title="切换视角（空格）" aria-label="Switch view. Current view Chase"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7V4h4m8 0h4v3m0 6v3h-4M6 16H2v-3m3-3h3l2-3 2 3h3"/></svg><span class="view-copy"><span class="view-action" data-zh="切换视角">Switch view</span><span id="viewLabel">CHASE CAM</span></span><span class="segments" aria-hidden="true"><i></i><i class="active"></i><i></i></span></button>
 <div class="telemetry" aria-label="Flight telemetry" data-zh-label="飞行数据"><span title="Indicated airspeed in knots" data-zh-title="指示空速（节）"><small>IAS</small> <b id="spd">087</b> KT</span><span title="Altitude in feet" data-zh-title="海拔高度（英尺）"><small>ALT</small> <b id="alt">476</b> FT</span></div>
-<div class="touch"><button type="button" id="touchBoost" title="Hold for afterburner" data-zh-title="按住开启加力"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7m-14 7 7-7 7 7"/></svg><span data-zh="加力">BOOST</span></button><button type="button" id="touchCannon" title="Hold to fire cannon" data-zh-title="按住发射机炮"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 18 8-8m-3 11 9-9m-4-5 4-4m1 6 4-4"/></svg><span data-zh="机炮">CANNON</span></button><button type="button" id="touchFire" title="Launch missile" data-zh-title="发射导弹"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 14 9-9 4-1-1 4-9 9-3-3zm0 0-4 1 2-4 4-1m1 7-1 4 4-2 1-4m-9 3-2 2"/></svg><span data-zh="导弹">MISSILE</span></button></div>
+<div class="touch"><button type="button" id="touchBoost" title="Hold to boost (Shift)" data-zh-title="按住加速飞行（Shift）"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7m-14 7 7-7 7 7"/></svg><span data-zh="加速">BOOST</span></button><button type="button" id="touchCannon" title="Hold to fire cannon" data-zh-title="按住发射机炮"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 18 8-8m-3 11 9-9m-4-5 4-4m1 6 4-4"/></svg><span data-zh="机炮">CANNON</span></button><button type="button" id="touchFire" title="Launch missile" data-zh-title="发射导弹"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 14 9-9 4-1-1 4-9 9-3-3zm0 0-4 1 2-4 4-1m1 7-1 4 4-2 1-4m-9 3-2 2"/></svg><span data-zh="导弹">MISSILE</span></button></div>
+<div id="flightStick" role="group" aria-label="Flight joystick" data-zh-label="飞行摇杆"><span id="stickKnob" aria-hidden="true"></span></div>
 <aside id="motionCard" class="motion-card" hidden><p id="motionMessage" role="status"></p><button type="button" id="motionStart"></button></aside>
 <div id="failure" role="alert"></div>
 </section>
@@ -111,14 +130,15 @@ html[lang="zh-CN"] #wordmark{display:none}html[lang="zh-CN"] h1 .google-title{di
 <span class="hint"><kbd id="pilotHint">MOUSE / WASD</kbd><span data-zh="驾驶">Pilot</span></span>
 <span class="hint"><kbd>SHIFT</kbd><span data-zh="加速">Boost</span></span>
 <span class="hint"><kbd data-zh="左键 / J">LMB / J</kbd><span data-zh="机炮">Cannon</span></span>
-<span class="hint"><kbd data-zh="右键 / F">RMB / F</kbd><span data-zh="导弹">Missile</span></span>
+<span class="hint"><kbd data-zh="右键 / F">RMB / F</kbd><span data-zh="追踪导弹">Homing missile</span></span>
 <span class="hint"><kbd>Q / E</kbd><span data-zh="桶滚">Roll</span></span><span class="hint"><kbd data-zh="空格">SPACE</kbd><span data-zh="视角">View</span></span>
-</div><div class="touchhint" data-zh="倾斜操纵飞机">Tilt to steer</div><div class="payload" id="payload" aria-label="Four missiles available"><span data-zh="导弹">MISSILES</span><span class="rails" aria-hidden="true"><i class="rail"></i><i class="rail"></i><i class="rail"></i><i class="rail"></i></span><b id="count">04</b></div></footer>
+</div><div class="touchhint" data-zh="倾斜操纵飞机">Tilt to steer</div><div class="payload" id="payload" role="group" aria-label="Four missiles available" title="Homing missiles · Full rack every 2.5 seconds" data-zh-title="追踪导弹 · 每 2.5 秒补满 4 枚"><span data-zh="导弹">MISSILES</span><span class="rails" aria-hidden="true"><i class="rail"></i><i class="rail"></i><i class="rail"></i><i class="rail"></i></span><span class="rack-status"><b id="count">04</b><small id="reloadTime"></small></span></div></footer>
 </main>
 <dialog id="settingsDialog" aria-labelledby="settingsTitle">
 <h2 id="settingsTitle" data-zh="设置">Settings</h2>
 <fieldset><legend data-zh="界面语言">Language</legend><label><input type="radio" id="langEn" name="language" value="en"><span lang="en">English</span></label><label><input type="radio" id="langZh" name="language" value="zh"><span lang="zh-CN">简体中文</span></label></fieldset>
 <fieldset id="pilotSettings"><legend data-zh="驾驶模式">Flight controls</legend><label><input type="radio" name="pilotMode" value="auto" checked><span data-zh="自动">Auto</span></label><label><input type="radio" name="pilotMode" value="mouse"><span data-zh="鼠标">Mouse</span></label><label><input type="radio" name="pilotMode" value="keyboard"><span data-zh="键盘">Keyboard</span></label></fieldset>
+<fieldset id="mobileSteering"><legend data-zh="飞行操纵">Flight controls</legend><label><input type="radio" name="mobileSteering" value="stick" checked><span data-zh="摇杆">Joystick</span></label><label><input type="radio" name="mobileSteering" value="tilt"><span data-zh="体感">Tilt</span></label></fieldset>
 <div class="motion-settings"><p id="motionSettingStatus" role="status"></p><button type="button" id="motionRecenter"></button></div>
 <button type="button" id="settingsClose" data-zh="继续飞行">Resume flight</button>
 </dialog>
@@ -540,11 +560,26 @@ class Landscape {
   }
 }
 
+const STAGES = [
+  {kind:'ray', nameEn:'Cloud Ray', nameZh:'云鳐', hp:112, escortLanes:[-1],
+    range:305, delay:4.6, windup:1.65, pulseSpeed:189, damage:15,
+    colors:[0x183c4b,0x26657a,0x55a8ac,0xa6ded0], glow:0x8ff6dc},
+  {kind:'hornet', nameEn:'Ember Hornet', nameZh:'烬刺蜂', hp:186, escortLanes:[-1,1],
+    range:285, delay:3.5, windup:1.34, pulseSpeed:215, damage:19,
+    colors:[0x462b35,0x985542,0xf49d50,0xffde8e], glow:0xffc16e},
+  {kind:'medusa', nameEn:'Prism Medusa', nameZh:'棱光水母', hp:270, escortLanes:[-1,1],
+    range:320, delay:2.85, windup:1.12, pulseSpeed:247, damage:23,
+    colors:[0x443660,0x75538c,0xbc88bc,0xf3c3e3], glow:0xf3aaf4},
+  {kind:'crown', nameEn:'Iron Crown', nameZh:'铁冠', hp:365, escortLanes:[-1,1,0],
+    range:340, delay:2.25, windup:.92, pulseSpeed:280, damage:28,
+    colors:[0x29263d,0x48384f,0x76617a,0xaf8e95], glow:0xff9875}
+];
+
 class Aircraft {
   constructor(gl, world) {
     this.gl = gl;
     this.world = world;
-    this.boss={x:24,y:171,z:342,hp:120,maxHp:120,alive:true,phase:'patrol',charge:0,hit:0,defeats:0};
+    this.campaignWon=false;
     this.shield=100;
     this.encounterReady=true;
     this.cannonHeld=false;
@@ -553,12 +588,12 @@ class Aircraft {
     this.burst=null;
     this.nextBolt=0;
     this.barrelSide=1;
-    this.nextPulse=5;
     this.recoverAt=0;
-    this.readyAt = [0, 0, 0, 0];
     this.rails = [-8.4, 8.4, -5.6, 5.6];
+    this.reloadInterval = 2.5;
     this.time = 0;
     this.shots = [];
+    this.resetPayload(0);
     this.impacts = [];
     this.particles = [];
     this.trails = [[], []];
@@ -568,7 +603,73 @@ class Aircraft {
     this.identity = new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
     this.dynamic = new Float32Array(48000);
     this.count = 0;
+    this.startStage(0,{x:0,y:145,z:0,heading:0},0);
     this.initializeGraphics();
+  }
+  startStage(index,s,time) {
+    const stage=STAGES[index];
+    this.stageIndex=index;
+    const x=s.x+Math.sin(s.heading)*stage.range,z=s.z+Math.cos(s.heading)*stage.range;
+    this.boss={x,z,y:Math.max(s.y+22,this.world.height(x,z)+65),hp:stage.hp,maxHp:stage.hp,
+      alive:true,phase:'patrol',charge:0,hit:0,born:time,volley:0};
+    const sn=Math.sin(s.heading),cs=Math.cos(s.heading);
+    this.escorts=stage.escortLanes.map((lane,i)=>{
+      const range=145+i*27,side=lane*48;
+      const x=s.x+sn*range+cs*side,z=s.z+cs*range-sn*side;
+      return {x,y:Math.max(s.y+9+i*5,this.world.height(x,z)+30),z,heading:s.heading,bank:0,
+        lane,range,phase:i*2.1,alive:true,hp:index<2?18:30,hit:0,nextFire:time+2.9+i*1.2};
+    });
+    this.nextPulse=time+stage.delay;
+    this.shots.length=0;this.bolts.length=0;this.pulses.length=0;this.burst=null;
+  }
+  restartCampaign(s,time) {
+    this.campaignWon=false;this.shield=100;this.recoverAt=time;
+    this.resetPayload(time);
+    this.startStage(0,s,time);
+  }
+  updateEscorts(dt,s,time) {
+    const sn=Math.sin(s.heading),cs=Math.cos(s.heading),follow=1-Math.exp(-dt*1.6);
+    for(const e of this.escorts){
+      if(!e.alive)continue;
+      const t=(time-this.boss.born)*(.72+this.stageIndex*.1)+e.phase;
+      const side=e.lane*48+Math.sin(t)*26,range=e.range+Math.sin(t*.82)*21;
+      const dx=(s.x+sn*range+cs*side-e.x)*follow+sn*s.speed*dt;
+      const dz=(s.z+cs*range-sn*side-e.z)*follow+cs*s.speed*dt;
+      e.x+=dx;e.z+=dz;
+      e.y+=(Math.max(s.y+12+Math.sin(t*1.4)*8,this.world.height(e.x,e.z)+30)-e.y)*follow;
+      e.heading=Math.atan2(dx,dz);e.bank=.44*Math.sin(t);e.hit=Math.max(0,e.hit-dt*5);
+      if(!this.encounterReady){e.nextFire=time+2.9+e.phase*.5;continue;}
+      if(time>=e.nextFire){
+        const p=[e.x,e.y,e.z],flight=clamp(Math.hypot(s.x-e.x,s.y-e.y,s.z-e.z)/165,.65,2.1);
+        this.pulses.push({p,v:[s.x,s.y,s.z].map((n,i)=>(n-p[i])/flight),
+          life:flight+.35,damage:7+this.stageIndex,escort:true});
+        e.nextFire=time+6.1-this.stageIndex*.62;
+      }
+    }
+  }
+  touchesEscort(p,e) {
+    if(!e.alive)return false;
+    const dx=p[0]-e.x,dz=p[2]-e.z,dy=p[1]-e.y;
+    if(dx*dx+dy*dy+dz*dz>310)return false;
+    const sn=Math.sin(e.heading),cs=Math.cos(e.heading),cr=Math.cos(e.bank),sr=Math.sin(e.bank);
+    const side=dx*cs-dz*sn,x=Math.abs(side*cr+dy*sr),y=dy*cr-side*sr,z=dx*sn+dz*cs;
+    return (x/4)**2+(y/4.4)**2+(z/14.5)**2<=1 ||
+      (x<=15 && Math.abs(y)<2.5 && z> -8 && z<7-x*.72) ||
+      (x<7 && Math.abs(y)<3 && z< -7 && z> -13) ||
+      (x<2.5 && y>=0 && y<7 && z< -4 && z> -13);
+  }
+  damageEscort(e,amount,point,time) {
+    if(!e.alive)return;
+    e.hp=Math.max(0,e.hp-amount);e.hit=1;
+    e.alive=e.hp>0;
+    const origin=e.alive?point:[e.x,e.y,e.z];
+    for(let i=0;i<(e.alive?4:20);i++){
+      const angle=Math.random()*Math.PI*2,speed=5+Math.random()*18;
+      this.puff(origin,[Math.cos(angle)*speed,4+Math.random()*17,Math.sin(angle)*speed],
+        e.alive?1:2,e.alive?.4:1.15,i%3?0xffb25d:0x605b70,i%3?'debris':'smoke');
+    }
+    this.onCombat?.('hit');
+    if(!e.alive)this.onImpact?.();
   }
   initializeGraphics() {
     const gl=this.gl;
@@ -760,7 +861,19 @@ class Aircraft {
     const m=this.transform;
     return [m[12]+m[0]*x+m[4]*y+m[8]*z,m[13]+m[1]*x+m[5]*y+m[9]*z,m[14]+m[2]*x+m[6]*y+m[10]*z];
   }
-  get ammo() { return this.readyAt.reduce((n,t)=>n+(t<=this.time),0); }
+  resetPayload(time) {
+    this.shots.length=0;
+    this.ammo=this.rails.length;
+    this.nextReload=time+this.reloadInterval;
+  }
+  reloadRemaining(time) { return Math.max(0,this.nextReload-time); }
+  refreshPayload(time) {
+    // Allow for rounding when 150 fixed simulation steps add up to 2.5 s.
+    const elapsed=time-this.nextReload+1e-9;
+    if(elapsed<0)return;
+    this.ammo=this.rails.length;
+    this.nextReload+=(1+Math.floor(elapsed/this.reloadInterval))*this.reloadInterval;
+  }
   terrainClear(x,y,z,tx,ty,tz) {
     const dx=tx-x,dy=ty-y,dz=tz-z;
     const steps=Math.max(1,Math.ceil(Math.hypot(dx,dz)/8));
@@ -774,11 +887,50 @@ class Aircraft {
     const b=this.boss,h=Math.atan2(b.x-s.x,b.z-s.z),roll=.10*Math.sin(time*.71);
     return [Math.sin(h),Math.cos(h),Math.cos(roll),Math.sin(roll)];
   }
+  monsterParts(time) {
+    if(this.partTime===time && this.partBoss===this.boss)return this.parts;
+    this.partTime=time;this.partBoss=this.boss;
+    const kind=STAGES[this.stageIndex].kind,t=time-this.boss.born;
+    // Each facet body is an octahedron. The last two offsets shear the x axis for swept wings.
+    const parts=[];
+    if(kind==='ray'){
+      parts.push([0,0,0,14,8,19,0,0],[0,1,21,3,3,21,0,0]);
+      const flap=6*Math.sin(t*2);
+      for(const side of [-1,1]){
+        parts.push([side*22,flap*.55,2,22,4,14,side*flap*.55,side*8]);
+        parts.push([side*43,flap,10,7,2,5,side*2,side*4]);
+      }
+    }else if(kind==='hornet'){
+      parts.push([0,0,-6,10,9,12,0,0],[0,1,10,7,7,15,0,0],[0,1,24,2,2,9,0,0]);
+      const flap=8*Math.sin(t*10);
+      for(const side of [-1,1]){
+        parts.push([side*19,5+flap*.5,-7,18,2.6,7,side*flap*.5,-side*10]);
+        parts.push([side*14,3+flap*.35,8,13,2,6,side*flap*.35,side*9]);
+        parts.push([side*5,-3,-16,2.4,2.8,9,0,0]);
+      }
+    }else if(kind==='medusa'){
+      const radius=30+2*Math.sin(t*3.2);
+      parts.push([0,7,0,radius,16,24,0,0],[0,0,0,radius+3,6,25,0,0]);
+      for(let j=0;j<6;j++){
+        const a=j*Math.PI/3,wave=Math.sin(t*2+j)*2.4;
+        const x=20*Math.cos(a),z=16*Math.sin(a);
+        parts.push([x,-9,z,3.5,13,3.5,0,0],[x+wave,-24,z+wave,2.6,10,2.6,0,0]);
+      }
+    }
+    this.parts=parts;return parts;
+  }
   touchesCrown(p,s,time) {
     const b=this.boss,dx=p[0]-b.x,dy=p[1]-b.y,dz=p[2]-b.z;
-    if(!b.alive||Math.abs(dy)>32||dx*dx+dz*dz>3300)return false;
+    if(!b.alive||Math.abs(dy)>42||dx*dx+dz*dz>3300)return false;
     const [sn,cs,cr,sr]=this.crownBasis(s,time),side=dx*cs-dz*sn;
-    const x=Math.abs(side*cr+dy*sr),y=dy*cr-side*sr,z=dx*sn+dz*cs;
+    const localX=side*cr+dy*sr,y=dy*cr-side*sr,z=dx*sn+dz*cs;
+    if(STAGES[this.stageIndex].kind!=='crown'){
+      return this.monsterParts(time).some(([cx,cy,cz,rx,ry,rz,sy,sz])=>{
+        const u=(localX-cx)/rx;
+        return Math.abs(u)+Math.abs((y-cy-sy*u)/ry)+Math.abs((z-cz-sz*u)/rz)<=1.08;
+      });
+    }
+    const x=Math.abs(localX);
     if((x/15)**2+(y/12)**2+(z/21)**2<1)return true;
     // Mirror the swept armor and the two upright fins in the Crown's local frame.
     if(x<6||x>53)return false;
@@ -787,14 +939,31 @@ class Aircraft {
     const fin=x>=32 && x<=46 && z>=2 && z<=18 && y>=5 && y<=8+(x-32)*1.65;
     return armor||fin;
   }
-  crownAim(p,s,reach) {
-    const b=this.boss;
-    if(!b.alive) return null;
-    const dx=b.x-p[0],dy=b.y-p[1],dz=b.z-p[2],dist=Math.hypot(dx,dy,dz);
-    const along=dx*this.transform[8]+dy*this.transform[9]+dz*this.transform[10];
-    return dist<reach && along>0 && Math.sqrt(Math.max(0,dist*dist-along*along))<32+dist*.055
-      && this.terrainClear(...p,b.x,b.y,b.z)
-      ? [dx/dist,dy/dist,dz/dist] : null;
+  selectTarget(p,weapon) {
+    let best=null,bestScore=Infinity;
+    for(const enemy of [this.boss,...this.escorts]) {
+      if(!enemy.alive)continue;
+      const dx=enemy.x-p[0],dy=enemy.y-p[1],dz=enemy.z-p[2],dist=Math.hypot(dx,dy,dz);
+      let score=dist;
+      if(weapon==='cannon') {
+        const along=dx*this.transform[8]+dy*this.transform[9]+dz*this.transform[10];
+        const offset=Math.sqrt(Math.max(0,dist*dist-along*along));
+        if(dist>=750||along<=0||offset>(enemy===this.boss?32:8)+dist*.055)continue;
+        if(!this.terrainClear(...p,enemy.x,enemy.y,enemy.z))continue;
+        score=offset/dist;
+      }
+      if(score<bestScore){best=enemy;bestScore=score}
+    }
+    return best;
+  }
+  hitEnemy(p,s,time,amount) {
+    for(const escort of this.escorts){
+      if(escort.alive&&this.touchesEscort(p,escort)){
+        this.damageEscort(escort,amount,p,time);return true;
+      }
+    }
+    if(!this.touchesCrown(p,s,time))return false;
+    this.damageCrown(amount,p,time);return true;
   }
   damageCrown(amount,point,time) {
     const b=this.boss;
@@ -807,7 +976,10 @@ class Aircraft {
     }
     this.onCombat?.('hit');
     if(b.hp>0) return;
-    b.alive=false;b.phase='defeated';b.charge=0;b.defeats++;
+    b.alive=false;b.phase='defeated';b.charge=0;
+    for(const escort of this.escorts)escort.alive=false;
+    this.escorts.length=0;
+    this.campaignWon=this.stageIndex===STAGES.length-1;
     this.burst={p:[b.x,b.y,b.z],start:time};this.pulses.length=0;
     for(let i=0;i<52;i++){
       const a=Math.random()*6.283,v=9+Math.random()*34;
@@ -818,23 +990,35 @@ class Aircraft {
     this.onCombat?.('defeat');
   }
   updateEncounter(dt,s,time) {
-    const b=this.boss;
-    if(this.burst && !b.alive && time-this.burst.start>8){
-      b.x=s.x+Math.sin(s.heading)*342;b.z=s.z+Math.cos(s.heading)*342;
-      b.y=Math.max(s.y+24,this.world.height(b.x,b.z)+71);
-      b.hp=b.maxHp;b.alive=true;b.phase='patrol';b.hit=0;b.charge=0;
-      this.burst=null;this.nextPulse=time+4;this.onCombat?.('respawn');
+    if(!this.campaignWon && this.burst && time-this.burst.start>=2.5){
+      this.startStage(this.stageIndex+1,s,time);
+      this.onCombat?.('respawn');
     }
+    const b=this.boss;
+    const stage=STAGES[this.stageIndex];
     if(time>this.recoverAt) this.shield=Math.min(100,this.shield+1.5*dt);
     if(b.alive) {
-      // The Crown drifts into the player's forward view during broad turns.
-      const enraged=b.hp<=b.maxHp*.5,strafe=Math.sin(time*(enraged?.52:.29))*(enraged?78:30);
-      const nearX=s.x+Math.sin(s.heading)*340+Math.cos(s.heading)*strafe;
-      const nearZ=s.z+Math.cos(s.heading)*340-Math.sin(s.heading)*strafe;
-      const wind=1-Math.exp(-dt*.29);
+      this.updateEscorts(dt,s,time);
+      const enraged=b.hp<=b.maxHp*.5,t=(time-b.born)*(enraged?1.22:1);
+      let strafe,altitude,range=stage.range;
+      switch(stage.kind){
+        case 'ray':
+          strafe=30*Math.sin(t*.38);altitude=8*Math.sin(t*.66);break;
+        case 'hornet':
+          strafe=85*Math.tanh(2.5*Math.sin(t*1.02));range-=36*Math.cos(t*1.02);
+          altitude=14*Math.sin(t*1.5);break;
+        case 'medusa':
+          strafe=59*Math.cos(t*.77);altitude=38*Math.sin(t*.77);break;
+        case 'crown':
+          strafe=(enraged?98:70)*Math.sin(t*.85);altitude=23*Math.sin(t*1.38);
+          range-=49*Math.sin(t*.49);break;
+      }
+      const nearX=s.x+Math.sin(s.heading)*range+Math.cos(s.heading)*strafe;
+      const nearZ=s.z+Math.cos(s.heading)*range-Math.sin(s.heading)*strafe;
+      const wind=1-Math.exp(-dt*(stage.kind==='hornet'?1.85:.75));
       b.x+=(nearX-b.x)*wind+Math.sin(s.heading)*s.speed*dt;
       b.z+=(nearZ-b.z)*wind+Math.cos(s.heading)*s.speed*dt;
-      const targetY=Math.max(this.world.height(b.x,b.z)+64,s.y+21+Math.sin(time*.7)*8);
+      const targetY=Math.max(this.world.height(b.x,b.z)+64,s.y+21+altitude);
       b.y+=(targetY-b.y)*(1-Math.exp(-dt*.85));
       b.hit=Math.max(0,b.hit-dt*4.6);
       if(!this.encounterReady){this.nextPulse=time+3;b.phase='patrol';b.charge=0;this.pulses.length=0}
@@ -842,16 +1026,26 @@ class Aircraft {
         b.phase='charging';b.charge=0;this.onCombat?.('charge');
       }
       if(b.phase==='charging') {
-        b.charge=Math.min(1,b.charge+dt*.55);
+        b.charge=Math.min(1,b.charge+dt/stage.windup);
         if(b.charge>=1) {
-          const origin=[b.x,b.y,b.z],flight=Math.max(.7,Math.min(1.9,Math.hypot(b.x-s.x,b.y-s.y,b.z-s.z)/235));
+          const origin=[b.x,b.y,b.z],flight=clamp(Math.hypot(b.x-s.x,b.y-s.y,b.z-s.z)/stage.pulseSpeed,.65,2.2);
           const end=[s.x+this.transform[8]*s.speed*flight,s.y+this.transform[9]*s.speed*flight,
             s.z+this.transform[10]*s.speed*flight];
-          for(const lane of (enraged?[-1,0,1]:[0])){
-            const target=[end[0]+lane*Math.cos(s.heading)*45,end[1],end[2]-lane*Math.sin(s.heading)*45];
+          let offsets;
+          switch(stage.kind){
+            case 'ray': offsets=[[0,0]];break;
+            case 'hornet': offsets=[[0,0],[b.volley%2?26:-26,0]];break;
+            case 'medusa': offsets=[[0,0],[0,-25],[0,25],[(b.volley%2?1:-1)*30,0]];break;
+            case 'crown':
+              offsets=[[-44,0],[-22,0],[0,0],[22,0],[44,0]];
+              if(enraged)offsets.push([0,-22],[0,22]);
+              break;
+          }
+          for(const [side,up] of offsets){
+            const target=[end[0]+side*Math.cos(s.heading),end[1]+up,end[2]-side*Math.sin(s.heading)];
             this.pulses.push({p:[...origin],v:target.map((n,i)=>(n-origin[i])/flight),life:flight+.48});
           }
-          b.phase='patrol';b.charge=0;this.nextPulse=time+(b.hp<b.maxHp*.5?3.3:4.7);
+          b.phase='patrol';b.charge=0;b.volley++;this.nextPulse=time+stage.delay*(enraged?.78:1);
           this.onCombat?.('pulse');
         }
       }
@@ -859,19 +1053,22 @@ class Aircraft {
     if(this.cannonHeld && time>=this.nextBolt) {
       this.nextBolt=time+.11;this.barrelSide*=-1;
       const p=this.local(this.barrelSide*3.3,-.05,4.7);
-      const lock=this.crownAim(p,s,750),direction=lock || Array.from(this.transform.slice(8,11));
-      this.bolts.push({p,v:direction.map(n=>n*(430+s.speed)),life:1.45,locked:!!lock});
+      const target=this.selectTarget(p,'cannon'),direction=target
+        ?norm([target.x-p[0],target.y-p[1],target.z-p[2]])
+        :Array.from(this.transform.slice(8,11));
+      this.bolts.push({p,v:direction.map(n=>n*(430+s.speed)),life:1.45,target});
       this.onCombat?.('cannon');
     }
     for(let i=this.bolts.length-1;i>=0;i--) {
       const shot=this.bolts[i];shot.life-=dt;
-      if(shot.locked && b.alive){
-        const dx=b.x-shot.p[0],dy=b.y-shot.p[1],dz=b.z-shot.p[2],d=Math.hypot(dx,dy,dz)||1;
+      const target=shot.target;
+      if(target?.alive){
+        const dx=target.x-shot.p[0],dy=target.y-shot.p[1],dz=target.z-shot.p[2],d=Math.hypot(dx,dy,dz)||1;
         const speed=Math.hypot(...shot.v);
         shot.v=[dx*speed/d,dy*speed/d,dz*speed/d];
       }
       for(let j=0;j<3;j++)shot.p[j]+=shot.v[j]*dt;
-      if(this.touchesCrown(shot.p,s,time)){this.damageCrown(3,shot.p,time);shot.life=0;}
+      if(this.hitEnemy(shot.p,s,time,3))shot.life=0;
       if(shot.life<=0 || shot.p[1]<this.world.height(shot.p[0],shot.p[2])) this.bolts.splice(i,1);
     }
     for(let i=this.pulses.length-1;i>=0;i--){
@@ -880,10 +1077,11 @@ class Aircraft {
       if(!this.terrainClear(x,y,z,...pulse.p)){this.pulses.splice(i,1);continue;}
       if(Math.hypot(s.x-pulse.p[0],s.y-pulse.p[1],s.z-pulse.p[2])<15) {
         if(Math.abs(s.bank)<1.32){
-          this.shield=Math.max(0,this.shield-27);this.recoverAt=time+4.5;
+          this.shield=Math.max(0,this.shield-(pulse.damage??stage.damage));this.recoverAt=time+4.5;
           this.onCombat?.('shield');
           if(!this.shield){
             this.shield=100;b.hp=b.maxHp;b.phase='patrol';b.charge=0;this.nextPulse=time+7;
+            for(const e of this.escorts)e.nextFire=time+5+e.phase*.5;
             this.pulses.length=0;this.onCombat?.('reboot');break;
           }
         }
@@ -893,18 +1091,24 @@ class Aircraft {
     }
   }
   fire(s,time) {
-    const i=this.readyAt.findIndex(t=>t<=time);
-    if(i<0) return false;
-    this.time=time;
-    this.readyAt[i]=time+4.4;
+    this.refreshPayload(time);
+    if(!this.ammo) return false;
+    const i=this.rails.length-this.ammo;
+    this.ammo--;
     this.basis(s);
     const p=this.local(this.rails[i],-.81,i<2?-2.9:-1.3);
     const level=Math.abs(s.pitch)<.13;
-    const range=460+Math.min(850,Math.max(0,s.y-this.world.height(s.x,s.z))*1.75);
-    const aim=level ? Math.min(-.035,Math.atan2(this.world.height(s.x+Math.sin(s.heading)*range,s.z+Math.cos(s.heading)*range)-s.y,range)) : s.pitch;
-    const velocity=s.speed+242;
-    this.shots.push({p,level,locked:!!this.crownAim(p,s,850),dx:Math.sin(s.heading)*Math.cos(aim)*velocity,dy:Math.sin(aim)*velocity,
-      dz:Math.cos(s.heading)*Math.cos(aim)*velocity,life:0,smoke:0});
+    const target=this.selectTarget(p,'missile');
+    let direction;
+    if(target) {
+      direction=norm([target.x-p[0],target.y-p[1],target.z-p[2]]);
+    } else {
+      const range=460+Math.min(850,Math.max(0,s.y-this.world.height(s.x,s.z))*1.75);
+      const aim=level ? Math.min(-.035,Math.atan2(this.world.height(s.x+Math.sin(s.heading)*range,s.z+Math.cos(s.heading)*range)-s.y,range)) : s.pitch;
+      direction=[Math.sin(s.heading)*Math.cos(aim),Math.sin(aim),Math.cos(s.heading)*Math.cos(aim)];
+    }
+    const velocity=target?300:s.speed+242;
+    this.shots.push({p,level,target,dx:direction[0]*velocity,dy:direction[1]*velocity,dz:direction[2]*velocity,life:0,smoke:0});
     return true;
   }
   puff(p,velocity,size,life,color,kind) {
@@ -925,6 +1129,7 @@ class Aircraft {
   }
   update(dt,s,time) {
     this.time=time;
+    this.refreshPayload(time);
     this.basis(s);
     this.updateEncounter(dt,s,time);
     this.vapourClock-=dt;
@@ -951,16 +1156,14 @@ class Aircraft {
     for(let i=this.shots.length-1;i>=0;i--) {
       const m=this.shots[i];
       m.life+=dt;
-      const b=this.boss;
-      if(m.locked && b.alive) {
-        const dx=b.x-m.p[0],dy=b.y-m.p[1],dz=b.z-m.p[2],d=Math.hypot(dx,dy,dz)||1;
+      const target=m.target;
+      if(target?.alive) {
+        const dx=target.x-m.p[0],dy=target.y-m.p[1],dz=target.z-m.p[2],d=Math.hypot(dx,dy,dz)||1;
         const speed=300;
         m.dx=dx/d*speed;m.dy=dy/d*speed;m.dz=dz/d*speed;
       } else if(m.life>(m.level?4.8:1.3)) m.dy-=dt*24;
       m.p[0]+=m.dx*dt;m.p[1]+=m.dy*dt;m.p[2]+=m.dz*dt;
-      if(this.touchesCrown(m.p,s,time)){
-        this.damageCrown(23,m.p,time);this.shots.splice(i,1);continue;
-      }
+      if(this.hitEnemy(m.p,s,time,23)){this.shots.splice(i,1);continue;}
       m.smoke-=dt;
       if(m.smoke<=0) {
         m.smoke+=.035;
@@ -1049,7 +1252,71 @@ class Aircraft {
       outer=far;inner=near;
     }
   }
+  drawIronCrown(cam,time,point,colors,hot) {
+    const [ink,shadow,metal,light]=colors;
+    const tri=(a,c,d,color)=>this.triangle(point(...a),point(...c),point(...d),color);
+    const facet=(a,c,d,e,color)=>{tri(a,c,d,color);tri(a,d,e,color);};
+    // Four separate armor sections per wing leave narrow gaps of sky.
+    for(const side of [-1,1]){
+      const v=(x,y,z)=>[side*x,y,z];
+      const plate=(x0,x1,height0,height1,z,span)=>{
+        const a=v(x0,height0,z),c=v(x1,height1,z+4),d=v(x1-1,height1-2,z+span+4),e=v(x0-2,height0-3,z+span);
+        const keel=v((x0+x1)/2,height0-5,z+span*.40),ridge=v((x0+x1)/2,height0+3,z+span*.39);
+        tri(a,c,ridge,side>0?light:metal);tri(c,d,ridge,light);
+        tri(d,e,ridge,metal);tri(e,a,ridge,shadow);
+        tri(a,c,keel,shadow);tri(c,d,keel,shadow);tri(d,e,keel,ink);tri(e,a,keel,ink);
+        facet(v(x0+.7,height0+.15,z-.1),v(x1-.6,height1+.13,z+3.7),
+          v(x1-1.4,height1-.75,z+3.6),v(x0+.8,height0-.8,z-.18),hot);
+      };
+      plate(8,18,2,1,-5,17);plate(19,31,1,5,-3,15);
+      plate(32,43,5,10,1,10);plate(44,51,10,16,5,6);
+      // Tall silhouettes and a pale leading edge distinguish the two outer fins.
+      const root=v(33,5,4),aft=v(42,8,15),tip=v(44,23,14),crease=v(39,10,5);
+      tri(root,crease,tip,metal);tri(crease,aft,tip,ink);
+      tri(root,v(33.9,5.5,4.2),tip,light);
+      const socket=point(side*24,0,-1),radius=1.85;
+      this.billboard(cam,socket,radius,radius,0xffae8c);
+      for(let j=0;j<6;j++){
+        const t=j/6,flow=(time*19+j*4.8)%6;
+        const plume=point(side*(24+1.1*Math.sin(time+j*.8)),-.6-t*2.7,-4-4.4*j-flow);
+        this.billboard(cam,plume,1.2+t*1.8,.58+t*.78,j<2?0xffc2a2:0xe7cad1,(1-t)*.77);
+      }
+    }
+    const plan=[[0,-15],[8,-9],[12,0],[8,11],[0,17],[-8,11],[-12,0],[-8,-9]];
+    for(let i=0;i<8;i++){
+      const [x,z]=plan[i],[xx,zz]=plan[(i+1)%8],a=[x,1,z],c=[xx,1,zz];
+      tri(a,c,[0,8,1],i===0||i===1?light:i<5?metal:shadow);
+      tri(a,c,[0,-8,0],i<3?shadow:ink);
+    }
+  }
+  drawEscort(cam,e,time) {
+    const sn=Math.sin(e.heading),cs=Math.cos(e.heading),cr=Math.cos(e.bank),sr=Math.sin(e.bank);
+    const at=(x,y,z)=>{
+      const side=x*cr-y*sr;
+      return [e.x+cs*side+sn*z,e.y+x*sr+y*cr,e.z+cs*z-sn*side];
+    };
+    const metal=e.hit>.3?0xffe7ab:0x87999e,shade=0x454258,red=0xed594f;
+    const nose=at(0,.1,14),belly=at(0,-2.6,-6),deck=at(0,2.7,0),tail=at(0,0,-12);
+    const triangle=(a,b,c,color)=>this.triangle(a,b,c,color);
+    for(const side of [-1,1]){
+      const v=(x,y,z)=>at(side*x,y,z),shoulder=v(2.9,.3,1),aft=v(2.1,0,-9);
+      triangle(nose,shoulder,deck,metal);triangle(nose,shoulder,belly,shade);
+      triangle(shoulder,aft,deck,metal);triangle(shoulder,aft,belly,shade);
+      triangle(aft,tail,deck,shade);triangle(aft,tail,belly,shade);
+      const blade=v(15,-.3,-5.6),root=v(1.5,.9,5),hinge=v(3.1,.6,-7.5);
+      triangle(root,blade,hinge,red);
+      triangle(hinge,blade,v(14,-.5,-7.2),0xffbb73);
+      triangle(v(1,.4,-6),v(6.8,.1,-12.7),v(1,.5,-11.5),metal);
+      triangle(v(0,.5,-4),v(.6,6.6,-11.8),v(.8,.4,-11.5),red);
+      triangle(v(.3,2,6),v(1.6,2.1,0),v(0,3.6,1),0x80e5e4);
+      this.billboard(cam,blade,1.05,.9,0xffdb90);
+    }
+    const exhaust=at(0,0,-12.2);
+    this.billboard(cam,exhaust,1.8,1.3,0xff8a53);
+    if(this.encounterReady && e.nextFire-time<.7)this.energyRing(cam,exhaust,4.2,.9,.87,0xffe79e,1);
+  }
   encounterArt(cam,s,time) {
+    for(const e of this.escorts)if(e.alive)this.drawEscort(cam,e,time);
     const b=this.boss;
     if(b.alive) {
       const [sn,cs,cr,sr]=this.crownBasis(s,time);
@@ -1057,48 +1324,28 @@ class Aircraft {
         const side=x*cr-y*sr;
         return [b.x+cs*side+sn*z,b.y+x*sr+y*cr,b.z+cs*z-sn*side];
       };
-      const hit=b.hit>.63,ink=hit?0xb67680:0x29263d,shadow=hit?0xf29b8a:0x48384f;
-      const metal=hit?0xffdbad:0x76617a,light=hit?0xffe6bb:0xaf8e95;
-      const hot=b.phase==='charging'?0xff9875:0xe66870;
-      const tri=(a,c,d,color)=>this.triangle(point(...a),point(...c),point(...d),color);
-      const facet=(a,c,d,e,color)=>{tri(a,c,d,color);tri(a,d,e,color);};
-      // Four separate armor sections per wing leave narrow gaps of sky.
-      for(const side of [-1,1]){
-        const v=(x,y,z)=>[side*x,y,z];
-        const plate=(x0,x1,height0,height1,z,span)=>{
-          const a=v(x0,height0,z),c=v(x1,height1,z+4),d=v(x1-1,height1-2,z+span+4),e=v(x0-2,height0-3,z+span);
-          const keel=v((x0+x1)/2,height0-5,z+span*.40),ridge=v((x0+x1)/2,height0+3,z+span*.39);
-          tri(a,c,ridge,side>0?light:metal);tri(c,d,ridge,light);
-          tri(d,e,ridge,metal);tri(e,a,ridge,shadow);
-          tri(a,c,keel,shadow);tri(c,d,keel,shadow);tri(d,e,keel,ink);tri(e,a,keel,ink);
-          facet(v(x0+.7,height0+.15,z-.1),v(x1-.6,height1+.13,z+3.7),
-            v(x1-1.4,height1-.75,z+3.6),v(x0+.8,height0-.8,z-.18),hot);
-        };
-        plate(8,18,2,1,-5,17);plate(19,31,1,5,-3,15);
-        plate(32,43,5,10,1,10);plate(44,51,10,16,5,6);
-        // Tall silhouettes and a pale leading edge distinguish the two outer fins.
-        const root=v(33,5,4),aft=v(42,8,15),tip=v(44,23,14),crease=v(39,10,5);
-        tri(root,crease,tip,metal);tri(crease,aft,tip,ink);
-        tri(root,v(33.9,5.5,4.2),tip,light);
-        const socket=point(side*24,0,-1),radius=1.85;
-        this.billboard(cam,socket,radius,radius,0xffae8c);
-        for(let j=0;j<6;j++){
-          const t=j/6,flow=(time*19+j*4.8)%6;
-          const plume=point(side*(24+1.1*Math.sin(time+j*.8)),-.6-t*2.7,-4-4.4*j-flow);
-          this.billboard(cam,plume,1.2+t*1.8,.58+t*.78,j<2?0xffc2a2:0xe7cad1,(1-t)*.77);
+      const stage=STAGES[this.stageIndex];
+      const colors=b.hit>.63?[0xb67680,0xf29b8a,0xffdbad,0xffe6bb]:stage.colors;
+      const ink=colors[0],hot=stage.glow;
+      if(stage.kind==='crown'){
+        this.drawIronCrown(cam,time,point,colors,hot);
+      }else{
+        for(const [x,y,z,rx,ry,rz,sy,sz] of this.monsterParts(time)){
+          const rim=[point(x+rx,y+sy,z+sz),point(x,y,z+rz),point(x-rx,y-sy,z-sz),point(x,y,z-rz)];
+          const top=point(x,y+ry,z),bottom=point(x,y-ry,z);
+          for(let k=0;k<4;k++){
+            const a=rim[k],c=rim[(k+1)%4];
+            this.triangle(a,c,top,colors[k===1||k===2?2:3]);
+            this.triangle(a,c,bottom,colors[k===2?0:1]);
+          }
         }
-      }
-      const plan=[[0,-15],[8,-9],[12,0],[8,11],[0,17],[-8,11],[-12,0],[-8,-9]];
-      for(let i=0;i<8;i++){
-        const [x,z]=plan[i],[xx,zz]=plan[(i+1)%8],a=[x,1,z],c=[xx,1,zz];
-        tri(a,c,[0,8,1],i===0||i===1?light:i<5?metal:shadow);
-        tri(a,c,[0,-8,0],i<3?shadow:ink);
       }
       // The reactor faces the pilot. Its outer rim, iris, and pin light stay
       // readable as it charges against the bright sunset.
       const charge=b.charge||0,r=4.3+charge*2.7+.25*Math.sin(time*(4+14*charge));
-      const core=point(0,0,-14),front=offset=>core.map((x,i)=>x-cam.forward[i]*offset);
-      if(charge>.06)this.energyRing(cam,front(1),r+3+charge*4,1.25,.92,0xffa887,.55+charge*.4);
+      const core=point(0,0,stage.kind==='medusa'?-25:stage.kind==='ray'?-19:-14);
+      const front=offset=>core.map((x,i)=>x-cam.forward[i]*offset);
+      if(charge>.06)this.energyRing(cam,front(1),r+3+charge*4,1.25,.92,hot,.55+charge*.4);
       this.billboard(cam,front(.3),r+2,r+1.4,ink);
       this.billboard(cam,front(.7),r,r*.88,hot);
       this.billboard(cam,front(1.1),r*.55,r*.52,0xffda9b);
@@ -1114,6 +1361,11 @@ class Aircraft {
     }
     for(const pulse of this.pulses){
       const p=pulse.p,size=4.4+.65*Math.sin(time*23),tail=p.map((n,i)=>n-pulse.v[i]*.075);
+      if(pulse.escort){
+        this.billboard(cam,tail,1.7,1.7,0xff8a55,.75);
+        this.billboard(cam,p,2.5,2.5,0xffdc82);
+        continue;
+      }
       this.billboard(cam,tail,2.7,2.7,0xe99ba5,.64);
       this.energyRing(cam,p,size+2,1.0,.90,0xffa2ae,1);
       this.billboard(cam,p,size*.70,size*.68,0xff6f92);
@@ -1215,7 +1467,7 @@ class Aircraft {
     gl.disable(gl.CULL_FACE);gl.disable(gl.BLEND);
     gl.uniformMatrix4fv(u.vp,false,cam.vp);
     gl.uniform2f(u.pixel,2/gl.drawingBufferWidth,2/gl.drawingBufferHeight);
-    gl.uniform4fv(u.loaded,this.readyAt.map(t=>t<=time?1:0));
+    gl.uniform4fv(u.loaded,this.rails.map((_,i)=>i>=this.rails.length-this.ammo?1:0));
     if(cam.jetVisibility>.01) {
       gl.bindVertexArray(this.jetBuffer.vao);
       gl.uniformMatrix4fv(u.model,false,this.transform);gl.uniform1f(u.opacity,cam.jetVisibility);
@@ -1777,24 +2029,70 @@ class MobilePilot {
     this.status='idle';this.active=false;this.boost=false;this.cannon=false;
     this.filtered=[0,0];this.target=[0,0];this.filterTime=performance.now();
     this.holds=new Map();
+    this.bindAction('touchBoost','boost');
     if(!this.enabled)return;
     document.documentElement.classList.add('mobile-flight');
-    this.bindAction('touchBoost','boost');this.bindAction('touchCannon','cannon');this.bindAction('touchFire','missile');
+    this.pad=byId('flightStick');this.knob=byId('stickKnob');this.padAxes=[0,0];this.padPointer=null;
+    this.bindStick();
+    this.bindAction('touchCannon','cannon');this.bindAction('touchFire','missile');
     byId('motionStart').onclick=()=>this.start();
     byId('motionRecenter').onclick=()=>{
       if(this.active){this.calibrate();if(this.latest)this.read(this.latest)}
       else this.start();
     };
     this.onReading=e=>this.read(e);
-    this.onRotate=()=>{if(this.active||this.status==='calibrating')this.calibrate()};
+    this.onRotate=()=>{this.releaseStick();if(this.steering==='tilt'&&(this.active||this.status==='calibrating'))this.calibrate()};
     screen.orientation?.addEventListener('change',this.onRotate);
     window.addEventListener('orientationchange',this.onRotate);
-    if(typeof window.DeviceOrientationEvent?.requestPermission==='function')this.setStatus('prompt');
-    else this.start();
+    for(const input of byId('mobileSteering').querySelectorAll('input')){
+      input.onchange=()=>{if(input.checked)this.setSteering(input.value,true)};
+    }
+    let saved;try{saved=localStorage.getItem('dusk-patrol.mobile-steering')}catch{}
+    this.setSteering(saved==='tilt'?'tilt':'stick',false);
+  }
+  bindStick(){
+    const move=e=>{
+      if(this.padPointer!==e.pointerId)return;
+      const rect=this.pad.getBoundingClientRect(),radius=(rect.width-this.knob.offsetWidth)/2-2;
+      if(radius<=0)return;
+      const x=(e.clientX-rect.left-rect.width/2)/radius,y=(e.clientY-rect.top-rect.height/2)/radius;
+      const scale=Math.max(1,Math.hypot(x,y));
+      this.padAxes=[x/scale,y/scale];
+      this.knob.style.transform='translate('+this.padAxes[0]*radius+'px,'+this.padAxes[1]*radius+'px)';
+    };
+    this.pad.addEventListener('pointerdown',e=>{
+      if(this.padPointer!==null||this.patrol.paused||this.patrol.lost||e.button!==0)return;
+      e.preventDefault();this.padPointer=e.pointerId;this.pad.setPointerCapture(e.pointerId);
+      this.pad.classList.add('held');move(e);
+    });
+    this.pad.addEventListener('pointermove',move);
+    for(const event of ['pointerup','pointercancel','lostpointercapture']){
+      this.pad.addEventListener(event,e=>{if(this.padPointer===e.pointerId)this.releaseStick()});
+    }
+  }
+  releaseStick(){
+    if(this.padPointer==null)return;
+    const id=this.padPointer;this.padPointer=null;this.padAxes=[0,0];
+    this.knob.style.transform='';this.pad.classList.remove('held');
+    if(this.pad.hasPointerCapture(id))this.pad.releasePointerCapture(id);
+  }
+  setSteering(mode,persist){
+    this.releaseStick();this.steering=mode;this.active=false;this.status='idle';
+    clearTimeout(this.waitTimer);clearTimeout(this.centerTimer);
+    window.removeEventListener('deviceorientation',this.onReading);
+    this.latest=null;this.neutral=null;
+    document.documentElement.classList.toggle('stick-steering',mode==='stick');
+    byId('mobileSteering').querySelector('input[value="'+mode+'"]').checked=true;
+    if(persist)try{localStorage.setItem('dusk-patrol.mobile-steering',mode)}catch{}
+    if(mode==='tilt' && typeof window.DeviceOrientationEvent?.requestPermission==='function'&&!this.permission)this.setStatus('prompt');
+    else if(mode==='tilt')this.start();
+    else this.refresh();
   }
   setStatus(value){this.status=value;this.active=value==='ready';this.refresh()}
   refresh(){
     if(!this.enabled)return;
+    document.querySelector('.touchhint').textContent=this.steering==='stick'?localText('Joystick','摇杆操纵'):localText('Tilt to steer','倾斜操纵飞机');
+    if(this.steering==='stick'){byId('motionCard').hidden=true;return}
     const messages={
       idle:['Motion steering','体感操纵'],
       prompt:['Enable motion to steer.','开启体感权限即可倾斜操纵。'],
@@ -1817,7 +2115,7 @@ class MobilePilot {
     center.disabled=pending;center.textContent=this.active?localText('Recenter tilt','重新校准'):action;
   }
   async start(){
-    if(this.status==='requesting')return;
+    if(this.steering!=='tilt'||this.status==='requesting')return;
     clearTimeout(this.waitTimer);clearTimeout(this.centerTimer);
     if(!window.isSecureContext){this.setStatus('insecure');return}
     const orientation=window.DeviceOrientationEvent;
@@ -1827,6 +2125,7 @@ class MobilePilot {
       try{
         this.permission=(await orientation.requestPermission())==='granted';
       }catch{this.permission=false}
+      if(this.steering!=='tilt')return;
       if(!this.permission){this.setStatus('denied');return}
     }
     window.addEventListener('deviceorientation',this.onReading);
@@ -1871,6 +2170,8 @@ class MobilePilot {
     this.filterTime=performance.now();this.setStatus('ready');
   }
   get stick(){
+    if(this.steering==='stick')return this.padAxes;
+    if(!this.active)return [0,0];
     const now=performance.now(),weight=1-Math.exp(-(now-this.filterTime)/85);this.filterTime=now;
     for(let i=0;i<2;i++)this.filtered[i]+=(this.target[i]-this.filtered[i])*weight;
     return this.filtered;
@@ -1898,6 +2199,7 @@ class MobilePilot {
     button.addEventListener('click',e=>{if(!e.detail&&!e.pointerType){down('assist');setTimeout(()=>up('assist'),100)}});
   }
   reset(){
+    this.releaseStick();
     for(const [button,pointers] of this.holds){pointers.clear();button.classList.remove('held')}
     this.boost=false;this.cannon=false;
   }
@@ -1933,7 +2235,7 @@ class Patrol {
     const mouseHardware=matchMedia('(any-pointer:fine)');
     const useDesktop=value=>{
       if(this.desktopInput===value)return;
-      this.desktopInput=value;this.cursor=null;
+      this.desktopInput=value;this.cursor=null;this.mobile?.releaseStick();
       document.documentElement.classList.toggle('mobile-flight',!value);
       this.showPilotMode();
     };
@@ -1949,7 +2251,7 @@ class Patrol {
     });
     for(const event of ['pointerleave','pointercancel'])sky.addEventListener(event,e=>{if(e.pointerType==='mouse')this.cursor=null});
     sky.addEventListener('pointerdown',e=>{
-      if(e.pointerType==='touch'&&this.mobile.enabled&&!mouseHardware.matches)useDesktop(false);
+      if(e.pointerType==='touch'&&this.mobile.enabled)useDesktop(false);
     },true);
     mouseHardware.addEventListener('change',()=>{
       this.cursor=null;useDesktop(!this.mobile.enabled||mouseHardware.matches);this.showPilotMode();
@@ -1981,6 +2283,12 @@ class Patrol {
     });
     viewButton.onclick=e=>{if(e.detail===0)this.cycle()};
     byId('sound').onclick=()=>this.sound.toggle().catch(()=>{});
+    byId('restartCampaign').onclick=()=>{
+      if(!this.aircraft.campaignWon)return;
+      this.aircraft.restartCampaign(this.s,this.time);
+      this.shieldTime=-Infinity;this.resetControls();this.overheadOffset=null;
+      this.screen.focus({preventScroll:true});this.draw();
+    };
     const controls=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowLeft','ArrowDown','ArrowRight','ShiftLeft','ShiftRight','KeyJ','KeyF','KeyQ','KeyE','Space']);
     window.addEventListener('keydown',e=>{
       if(this.paused||this.lost||e.altKey||e.ctrlKey||e.metaKey||!controls.has(e.code))return;
@@ -2040,7 +2348,7 @@ class Patrol {
     const k=this.keys,key=(a,b)=>Number(k.has(a)||k.has(b));
     const left=key('KeyA','ArrowLeft'),right=key('KeyD','ArrowRight'),up=key('KeyW','ArrowUp'),down=key('KeyS','ArrowDown');
     const mouseSteering=this.desktopInput&&this.cursor&&!(left||right||up||down)&&(this.pilotMode==='mouse'||this.pilotMode==='auto'&&this.pilotSource==='mouse');
-    if(!this.desktopInput){this.stick=this.mobile.active?this.mobile.stick:[0,0]}
+    if(!this.desktopInput){this.stick=this.mobile.stick}
     else{this.stick=mouseSteering?this.cursor:[right-left,down-up]}
     if(!this.manual&&this.desktopInput){turn=.075*Math.sin(this.time*.29+.2);attitude=.015*Math.sin(this.time*.22)}
     else if(mouseSteering&&this.mode===0){
@@ -2052,7 +2360,7 @@ class Patrol {
     }
     else{turn=axis(this.stick[0])*1.1;attitude=-axis(this.stick[1])*.61}
     this.aircraft.cannonHeld=this.mouseCannon||k.has('KeyJ')||this.mobile.cannon;
-    this.aircraft.encounterReady=this.desktopInput||this.mobile.active;
+    this.aircraft.encounterReady=this.desktopInput||this.mobile.steering==='stick'||this.mobile.active;
     s.boost=follow(s.boost,(this.mobile.boost||k.has('ShiftLeft')||k.has('ShiftRight'))?1:0,5.5,dt);
     s.speed=follow(s.speed,46+s.boost*48-Math.sin(s.pitch)*7,1.0,dt);
     s.turnRate=follow(s.turnRate,turn,2.8,dt);s.heading=wrap(s.heading+s.turnRate*dt);
@@ -2128,13 +2436,19 @@ class Patrol {
     return {eye,forward,right:r,up,tan,aspect,vp,alpha,jetVisibility};
   }
   encounter(cam){
-    const a=this.aircraft,b=a.boss,s=this.s;
+    const a=this.aircraft,b=a.boss,s=this.s,stage=STAGES[a.stageIndex];
+    if(this.shownStage!==a.stageIndex||this.stageLanguage!==language){
+      byId('monsterName').textContent=localText(stage.nameEn.toUpperCase(),stage.nameZh);
+      byId('stageLabel').textContent=localText('STAGE ','关卡 ')+(a.stageIndex+1)+' / '+STAGES.length;
+      this.shownStage=a.stageIndex;this.stageLanguage=language;
+    }
     let status=localText('ENGAGED','交战中');
-    if(!b.alive)status=localText('DEFEATED','已击破');
+    if(a.campaignWon)status=localText('ALL CLEAR','全关通关');
+    else if(!b.alive)status=localText('STAGE CLEAR','本关已过');
     else if(this.time-this.shieldTime<1.4)status=this.shieldEvent==='reboot'?localText('REBOOT','护盾重启'):localText('SHIELD HIT','护盾受击');
     else if(b.phase==='charging')status=localText('PULSE CHARGING','脉冲蓄力');
-    else if(b.hp<=b.maxHp*.5)status=localText('VOLLEY','齐射阶段');
     const armor=byId('bossHealth'),hp=Math.ceil(b.hp/b.maxHp*100),shield=Math.ceil(a.shield);
+    byId('restartCampaign').hidden=!a.campaignWon;
     if(this.shownHP!==hp){armor.style.transform='scaleX('+hp/100+')';armor.parentElement.setAttribute('aria-valuenow',hp);this.shownHP=hp}
     if(this.shownShield!==shield){byId('shield').textContent=shield;this.shownShield=shield}
     if(this.shownStatus!==status){byId('bossStatus').textContent=status;this.shownStatus=status}
@@ -2182,6 +2496,8 @@ class Patrol {
       byId('spd').textContent=Math.round(s.speed*1.94384).toString().padStart(3,'0');byId('alt').textContent=Math.round(s.y*3.28084).toLocaleString('en-US');this.sound.update(s);
     }
     const ammo=this.aircraft.ammo;if(this.tally!==ammo){this.tally=ammo;byId('count').textContent='0'+ammo;byId('payload').setAttribute('aria-label',inventoryName(ammo));document.querySelectorAll('.rail').forEach((el,i)=>el.classList.toggle('empty',i>=ammo))}
+    const reload=ammo===4?localText('READY','就绪'):(Math.ceil(this.aircraft.reloadRemaining(this.time)*10)/10).toFixed(1)+'s';
+    if(this.shownReload!==reload){byId('reloadTime').textContent=reload;this.shownReload=reload}
   }
   frame(ts){
     if(!this.paused&&!this.lost&&!document.hidden){
